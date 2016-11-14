@@ -1,5 +1,5 @@
 /**
- * Created by JonathanGescheit on 11/14/16.
+ * Print the maximum and second highest numbers.
  */
 public class Assignment02Q01Sec02 {
     public static void main(String[] args) {
@@ -19,7 +19,7 @@ public class Assignment02Q01Sec02 {
                 almostMax = d;
             }
         }
-        
+
         System.out.println(max);
         System.out.println(almostMax);
     }

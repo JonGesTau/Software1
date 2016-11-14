@@ -1,5 +1,5 @@
 /**
- * Created by JonathanGescheit on 11/14/16.
+ * Print string if ASCII value is even.
  */
 public class Assignment02Q01Sec01 {
     public static void main(String[] args) {
