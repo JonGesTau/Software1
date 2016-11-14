@@ -4,24 +4,32 @@
 public class Assignment02Q03 {
     public static void main(String[] args) {
         String result = "";
-        char[] alphabet = "abcdefghijklmnopqrstuvwxyz".toCharArray();
+        String usedLetters = "";
 
-        // Iterate over the alphabet
-        for (char letter : alphabet) {
+        // Create a string containing all the characters used in all strings according to their appeareance order.
+        for (String string : args) {
+            for (int i = 0; i < string.length(); i++) {
+                char letter = string.charAt(i);
+                if (usedLetters.indexOf(letter) == -1) {
+                    usedLetters += letter;
+                }
+            }
+        }
+
+        // Convert the string to a chars array.
+        char[] usedLettersArray = usedLetters.toCharArray();
+
+        // Count in how many strings each letter appears.
+        for (char letter : usedLettersArray) {
             int counter = 0;
 
-            // Iterate over the command line arguments
             for (String string : args) {
-                // If the current letter appears in the string, increase counter.
                 if (string.indexOf(letter) > -1) {
                     counter++;
                 }
             }
 
-            // Add counter to result line if the letter appeared anywhere.
-            if (counter > 0) {
-                result += letter + ":" + counter + '\t';
-            }
+            result += letter + ":" + counter + '\t';
         }
 
         System.out.println(result);
