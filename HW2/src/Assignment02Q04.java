@@ -13,7 +13,7 @@ public class Assignment02Q04 {
             boolean isPrime = true;
             double sqrt = Math.sqrt(numToCheck);
             int top = (int) sqrt;
-            // The issue was that primes[i] should <= top (and not < top)
+            // The issue was that primes[i] should be <= top (and not < top)
             for (int i = 0; i < primeAmount && primes[i] <= top; i++) {
                 if (numToCheck % primes[i] == 0) {
                     isPrime = false;

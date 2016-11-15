@@ -16,7 +16,7 @@ public class Assignment02Q02 {
                 double fahrenheit = Double.parseDouble(string);
                 double celsius = (fahrenheit - 32) / 1.8;
 
-                System.out.println("Fahrenheit: " + df.format(fahrenheit) + " Celsius: " + df.format(celsius));
+                System.out.println("Fahrenheit: " + fahrenheit + " Celsius: " + df.format(celsius));
             }
         }
     }
