@@ -56,7 +56,7 @@ public class ArrayUtils {
      * @return the minimal alternating sum.
      */
     public static int alternateSum(int[] array) {
-        int min = 0;
+        int min = array[0];
 
         for (int i = 0; i < array.length; i++) {
             int sum = array[i];
@@ -73,5 +73,9 @@ public class ArrayUtils {
         }
 
         return min;
+    }
+
+    public static int [][] matrixMultiplication (int[][] m, int[][] n) {
+        
     }
 }
