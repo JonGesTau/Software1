@@ -75,7 +75,26 @@ public class ArrayUtils {
         return min;
     }
 
+    /**
+     * Multiply matrices
+     * @param m the first array.
+     * @param n the second array.
+     * @return the product of multiplying the first and second array.
+     */
     public static int [][] matrixMultiplication (int[][] m, int[][] n) {
-        
+        // Init the result array of arrays with m's rows number and n's columns number.
+        int[][] result = new int[m.length][n[0].length];
+
+        //
+        for (int i = 0; i < m.length; i++) {
+            for (int j = 0; j < n[0].length; j++) {
+                for (int k = 0; k < m[0].length; k++) {
+                    result[i][j] += m[i][k] * n[k][j];
+                }
+            }
+            System.out.println(Arrays.toString(result[i]));
+        }
+
+        return result;
     }
 }
