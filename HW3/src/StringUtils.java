@@ -8,7 +8,7 @@ public class StringUtils {
     /**
      * Lexicographically sort a string of words.
      * @param str
-     * @return
+     * @return the sorted string.
      */
     public static String sortStringWords (String str) {
         String result = "";

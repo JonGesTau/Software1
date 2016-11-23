@@ -12,6 +12,7 @@ public class ArrayUtils {
      * @return the new array.
      */
     public static int[] incArray (int[] array) {
+        // Create a copy of the array.
         int[] result = Arrays.copyOf(array, array.length);
 
         for (int i = 0; i < result.length; i++) {
