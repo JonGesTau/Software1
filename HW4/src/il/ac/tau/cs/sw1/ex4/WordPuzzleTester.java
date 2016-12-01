@@ -8,18 +8,30 @@ public class WordPuzzleTester {
 		String vocabularyText = "I look at the floor and I see it needs sweeping while my guitar gently wheeps";
 		Scanner vocabularyScanner = new Scanner(vocabularyText);
 		String[] vocabulary = WordPuzzle.scanVocabulary(vocabularyScanner);
-		String pattern1 = "**__*";
+		String pattern1 = "**_*_";
 		String pattern2 = "__*__";
 
 		if (!WordPuzzle.isInVocabulary(vocabulary, "while")){
 			System.out.println("Error 1");
 		}
-		if (!WordPuzzle.checkPattern("wlile", pattern1)){
+		if (!WordPuzzle.checkPattern("while", pattern1)){
 			System.out.println("Error 2");
 		}
 		if (WordPuzzle.checkPattern("guiltar", pattern2)){
 			System.out.println("Error 3");
 		}
+		if (WordPuzzle.countBlanksInPattern(pattern2) != 4){
+			System.out.println("Error 4");
+		}
+		String pattern3 = "__*";
+		char[] puzzle1 = WordPuzzle.createPuzzle("the", pattern3);
+		if (!Arrays.equals(puzzle1, new char[]{'_', '_', 'e'})){
+			System.out.println("Error 5");
+		}
+		if (!WordPuzzle.hasUniqueSolution(pattern3, puzzle1, vocabulary)){
+			System.out.println("Error 6");
+		}
+		System.out.println(WordPuzzle.hasUniqueSolution(pattern3, puzzle1, vocabulary));
 	}
 
 //

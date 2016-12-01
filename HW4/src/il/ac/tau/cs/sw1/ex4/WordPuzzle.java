@@ -2,6 +2,7 @@ package il.ac.tau.cs.sw1.ex4;
 
 import java.io.File;
 import java.lang.String;
+import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -90,18 +91,68 @@ public class WordPuzzle {
 	}
 	
 	public static int countBlanksInPattern(String pattern){
-		// replace with your code
-		return 0; 
+		int counter = 0;
+		for (int i = 0; i < pattern.length(); i++) {
+			if (pattern.charAt(i) == '_') {
+				counter++;
+			}
+		}
+		return counter;
 	}
 
 	public static char[] createPuzzle(String word, String pattern){
-		// replace with your code
-		return null; 
+		char[] result = new char[word.length()];
+
+		for (int i = 0; i < word.length(); i++) {
+			char letter = word.charAt(i);
+			char patternChar = pattern.charAt(i);
+			boolean isHidden = patternChar == '_';
+
+			if (isHidden) {
+				result[i] = '_';
+			} else {
+				result[i] = letter;
+			}
+		}
+
+		return result;
 	}
 	
 	
 	public static boolean hasUniqueSolution(String pattern, char[] puzzle, String[] vocabulary){
-		// replace with your code
+		String possibleMatches = "";
+		int patternLength = pattern.length();
+		int matchesCounter = 0;
+
+		for (String word : vocabulary) {
+			if (word.length() == patternLength && checkPattern(word, pattern)) {
+				possibleMatches += word + " ";
+			}
+		}
+
+		String[] possibleMatchesArray = possibleMatches.split(" ");
+
+		if (possibleMatchesArray.length == 1) {
+			return true;
+		} else {
+			for (String match : possibleMatchesArray) {
+				int mismatchCounter = 0;
+				for (int i = 0; i < puzzle.length; i++) {
+					char piece = puzzle[i];
+					if (piece != '_' && piece != match.charAt(i)) {
+						mismatchCounter++;
+					}
+				}
+				if (mismatchCounter == 0) {
+					matchesCounter++;
+				}
+			}
+
+			if (matchesCounter == 1) {
+				return true;
+			}
+		}
+
 		return false; 
 	}
 	
