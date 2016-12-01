@@ -12,11 +12,13 @@ public class WordPuzzle {
 	public static String[] scanVocabulary(Scanner scanner){
 		String words = "";
 		String[] truncArray = null;
+		String[] input = scanner.nextLine().split(" ");
 
 		// Remove duplicates from the string
-		for (word : scanner.nextLine().split(" ")) {
-			if (words.indexOf(word) > -1) {
-				words += word.toLowerCase() + " ";
+		for (String word : input) {
+			String lowerCaseWord = word.toLowerCase();
+			if (words.indexOf(lowerCaseWord) == -1) {
+				words += lowerCaseWord + " ";
 			}
 		}
 
@@ -29,8 +31,9 @@ public class WordPuzzle {
 		}
 
 		String[] result = truncArray == null ? wordsNoDuplicates : truncArray;
+		Arrays.sort(result);
 
-		return Arrays.sort(result);
+		return result;
 	}
 	
 	public static boolean isInVocabulary(String[] vocabulary, String word){
