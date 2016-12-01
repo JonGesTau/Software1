@@ -17,7 +17,7 @@ public class WordPuzzle {
 		// Remove duplicates from the string
 		for (String word : input) {
 			String lowerCaseWord = word.toLowerCase();
-			if (words.indexOf(lowerCaseWord) == -1) {
+			if (!words.contains(lowerCaseWord)) {
 				words += lowerCaseWord + " ";
 			}
 		}
@@ -37,14 +37,56 @@ public class WordPuzzle {
 	}
 	
 	public static boolean isInVocabulary(String[] vocabulary, String word){
-		// replace with your code
-		return false; 
+		boolean result = false;
+		for (String vocabularyWord : vocabulary) {
+			if (vocabularyWord.equals(word)) {
+				result = true;
+				break;
+			}
+		}
+
+		return result;
 	}
 
 	
 	public static boolean checkPattern(String word, String pattern){
-		// replace with your code
-		return false; 
+		// Test #1 - Same length
+		if (pattern.length() != word.length()) {
+			return false;
+		}
+
+		// Test #2 - At least one letter is hidden
+		if (!pattern.contains("_")) {
+			return false;
+		}
+
+		// Test #3 - Pattern contains only '*' and '_'
+		if (!pattern.matches("[*_]+")) {
+			return false;
+		}
+
+		// Test #4 - If a letter appears more than once, it's hidden \ shown consistently
+		String[] wordArray = word.split("");
+		String shown = "";
+		String hidden = "";
+
+		for (int i = 0; i < word.length(); i++) {
+			char letter = word.charAt(i);
+			char patternChar = pattern.charAt(i);
+
+			if (patternChar == '*') {
+				if (hidden.indexOf(letter) > -1) {
+					return false;
+				}
+				shown += letter;
+			} else {
+				if (shown.indexOf(letter) > -1) {
+					return false;
+				}
+				hidden += letter;
+			}
+		}
+		return true;
 	}
 	
 	public static int countBlanksInPattern(String pattern){

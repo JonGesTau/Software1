@@ -8,8 +8,18 @@ public class WordPuzzleTester {
 		String vocabularyText = "I look at the floor and I see it needs sweeping while my guitar gently wheeps";
 		Scanner vocabularyScanner = new Scanner(vocabularyText);
 		String[] vocabulary = WordPuzzle.scanVocabulary(vocabularyScanner);
+		String pattern1 = "**__*";
+		String pattern2 = "__*__";
 
-		System.out.println(Arrays.toString(vocabulary));
+		if (!WordPuzzle.isInVocabulary(vocabulary, "while")){
+			System.out.println("Error 1");
+		}
+		if (!WordPuzzle.checkPattern("wlile", pattern1)){
+			System.out.println("Error 2");
+		}
+		if (WordPuzzle.checkPattern("guiltar", pattern2)){
+			System.out.println("Error 3");
+		}
 	}
 
 //
