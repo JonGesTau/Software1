@@ -166,7 +166,7 @@ public class WordPuzzle {
 		int matches = 0;
 
 		for (int i = 0; i < word.length(); i++) {
-			if (word.charAt(i) == guess) {
+			if (puzzle[i] == '_' && word.charAt(i) == guess) {
 				puzzle[i] = guess;
 				matches++;
 			}
@@ -290,24 +290,31 @@ public class WordPuzzle {
 		int remainigBlanksToSolve = startBlanksCount;
 		int remainingAttempts = startBlanksCount + ADD_TO_ATTEMPTS;
 
-		while (remainigBlanksToSolve > 0) {
-			if (remainingAttempts > 0) {
-				printEnterYourGuessMessage();
-				String guess = scanner.nextLine();
-				int flippedBlanks = applyGuess(guess.charAt(0), word, puzzle);
+		printGameStageMessage();
 
-				if (flippedBlanks > 0) {
-					remainigBlanksToSolve -= flippedBlanks;
-					remainingAttempts--;
-					printCorrectGuess(remainingAttempts);
-				} else {
-					remainingAttempts--;
-					printWrongGuess(remainingAttempts);
-				}
+		while (remainigBlanksToSolve > 0 && remainingAttempts > 0) {
+			printPuzzle(puzzle);
+
+			printEnterYourGuessMessage();
+			String guess = scanner.nextLine();
+			int flippedBlanks = applyGuess(guess.charAt(0), word, puzzle);
+
+			if (flippedBlanks > 0) {
+				remainigBlanksToSolve -= flippedBlanks;
+				remainingAttempts--;
+				printCorrectGuess(remainingAttempts);
+			} else {
+				remainingAttempts--;
+				printWrongGuess(remainingAttempts);
 			}
 		}
 
-		printWinMessage();
+		if (remainigBlanksToSolve == 0) {
+			printWinMessage();
+		} else {
+			printGameOver();
+		}
+
 		return;
 	}
 }
