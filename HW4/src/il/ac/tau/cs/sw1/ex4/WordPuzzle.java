@@ -12,13 +12,20 @@ public class WordPuzzle {
 	
 	public static String[] scanVocabulary(Scanner scanner){
 		String words = "";
+		String inputString = "";
 		String[] truncArray = null;
-		String[] input = scanner.nextLine().split(" ");
+
+		while (scanner.hasNextLine()) {
+			inputString += scanner.nextLine() + " ";
+		}
+
+		String[] input = inputString.split(" ");
 
 		// Remove duplicates from the string
 		for (String word : input) {
+			word = word.replaceAll("^[^a-zA-Z0-9\\s]+|[^a-zA-Z0-9\\s]+$", "");
 			String lowerCaseWord = word.toLowerCase();
-			if (!words.contains(lowerCaseWord)) {
+			if (!words.matches(".*\\b" + lowerCaseWord + "\\b.*")) {
 				words += lowerCaseWord + " ";
 			}
 		}
