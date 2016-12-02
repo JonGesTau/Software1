@@ -179,12 +179,10 @@ public class WordPuzzle {
 		String vocabularyText = "";
 		System.out.println("Please provide a file name (e.g src/resources/hw4/vocabulary.txt):");
 
-		Scanner fileScanner = new Scanner(System.in);
-		String FILE_NAME = fileScanner.nextLine();
+		Scanner scanner = new Scanner(System.in);
+		String FILE_NAME = scanner.nextLine();
 
 		// Check for invalid file here
-
-		fileScanner.close();
 
 		Scanner vocabularyScanner = new Scanner(new File(FILE_NAME));
 		String[] vocabulary = WordPuzzle.scanVocabulary(vocabularyScanner);
@@ -192,7 +190,7 @@ public class WordPuzzle {
 		vocabularyScanner.close();
 
 		printSettingsMessage();
-		enterWord(vocabulary);
+		enterWord(vocabulary, scanner);
 
 
 	}
@@ -255,18 +253,61 @@ public class WordPuzzle {
 		System.out.println("Game over!");
 	}
 
-	public static void enterWord(String[] vocabulary) {
+//	public static String getUserInput(String scannerName) {
+//		Scanner scannerName = new Scanner(System.in);
+//		return scannerName.nextLine();
+//	}
+
+	public static void enterWord(String[] vocabulary, Scanner scanner) {
 		printEnterWordMessage();
 
-		Scanner wordScanner = new Scanner(System.in);
-		String word = wordScanner.nextLine();
+		String word = scanner.nextLine();
 
 		if (WordPuzzle.isInVocabulary(vocabulary, word)) {
-			printEnterYourPattern();
+			enterPattern(vocabulary, scanner, word);
 		} else {
 			printIllegalWordMessage();
-			enterWord(vocabulary);
+			enterWord(vocabulary, scanner);
 		}
 	}
 
+	public static void enterPattern(String[] vocabulary, Scanner scanner, String word) {
+		printEnterYourPattern();
+		String pattern = scanner.nextLine();
+		char[] puzzle = createPuzzle(word, pattern);
+
+		if (checkPattern(word, pattern) && hasUniqueSolution(pattern, puzzle, vocabulary)) {
+			startGame(vocabulary, scanner, word, pattern, puzzle);
+		} else {
+			printIllegalPatternMessage();
+			enterPattern(vocabulary, scanner, word);
+		}
+	}
+
+	public static void startGame(String[] vocabulary, Scanner scanner, String word, String pattern,char[] puzzle) {
+		int ADD_TO_ATTEMPTS = 3;
+		int startBlanksCount = countBlanksInPattern(pattern);
+		int remainigBlanksToSolve = startBlanksCount;
+		int remainingAttempts = startBlanksCount + ADD_TO_ATTEMPTS;
+
+		while (remainigBlanksToSolve > 0) {
+			if (remainingAttempts > 0) {
+				printEnterYourGuessMessage();
+				String guess = scanner.nextLine();
+				int flippedBlanks = applyGuess(guess.charAt(0), word, puzzle);
+
+				if (flippedBlanks > 0) {
+					remainigBlanksToSolve -= flippedBlanks;
+					remainingAttempts--;
+					printCorrectGuess(remainingAttempts);
+				} else {
+					remainingAttempts--;
+					printWrongGuess(remainingAttempts);
+				}
+			}
+		}
+
+		printWinMessage();
+		return;
+	}
 }
