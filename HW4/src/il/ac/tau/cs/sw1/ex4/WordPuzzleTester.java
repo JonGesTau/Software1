@@ -31,7 +31,11 @@ public class WordPuzzleTester {
 		if (!WordPuzzle.hasUniqueSolution(pattern3, puzzle1, vocabulary)){
 			System.out.println("Error 6");
 		}
-		System.out.println(WordPuzzle.hasUniqueSolution(pattern3, puzzle1, vocabulary));
+		char[] puzzle2 = new char[] {'w','_', '_', 'l', 'e'};
+		int numOfChangedLetters = WordPuzzle.applyGuess('i', "while", puzzle2);
+		if (numOfChangedLetters != 1){
+			System.out.println("Error 7");
+		}
 	}
 
 //

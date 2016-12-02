@@ -124,8 +124,9 @@ public class WordPuzzle {
 		int patternLength = pattern.length();
 		int matchesCounter = 0;
 
+		// If a word matches the pattern's legality, it's a possible match
 		for (String word : vocabulary) {
-			if (word.length() == patternLength && checkPattern(word, pattern)) {
+			if (checkPattern(word, pattern)) {
 				possibleMatches += word + " ";
 			}
 		}
@@ -133,8 +134,10 @@ public class WordPuzzle {
 		String[] possibleMatchesArray = possibleMatches.split(" ");
 
 		if (possibleMatchesArray.length == 1) {
+			// If there's only one possible match, it's the unique match.
 			return true;
 		} else {
+			// Otherwise, iterate all possible matches and compare every known letter.
 			for (String match : possibleMatchesArray) {
 				int mismatchCounter = 0;
 				for (int i = 0; i < puzzle.length; i++) {
@@ -143,11 +146,14 @@ public class WordPuzzle {
 						mismatchCounter++;
 					}
 				}
+
+				// If there's no mismatches after comparing a word, increase matchesCounter.
 				if (mismatchCounter == 0) {
 					matchesCounter++;
 				}
 			}
 
+			// If there's only one match by comparing letters, it's the unique match.
 			if (matchesCounter == 1) {
 				return true;
 			}
@@ -157,12 +163,38 @@ public class WordPuzzle {
 	}
 	
 	public static int applyGuess(char guess, String word, char[] puzzle){
-		// replace with your code
-		return guess; 
+		int matches = 0;
+
+		for (int i = 0; i < word.length(); i++) {
+			if (word.charAt(i) == guess) {
+				puzzle[i] = guess;
+				matches++;
+			}
+		}
+
+		return matches;
 	}
 
 	public static void main(String[] args) throws Exception{
-		// add with your code here
+		String vocabularyText = "";
+		System.out.println("Please provide a file name (e.g src/resources/hw4/vocabulary.txt):");
+
+		Scanner fileScanner = new Scanner(System.in);
+		String FILE_NAME = fileScanner.nextLine();
+
+		// Check for invalid file here
+
+		fileScanner.close();
+
+		Scanner vocabularyScanner = new Scanner(new File(FILE_NAME));
+		String[] vocabulary = WordPuzzle.scanVocabulary(vocabularyScanner);
+		printReadVocabulary(FILE_NAME, vocabulary.length);
+		vocabularyScanner.close();
+
+		printSettingsMessage();
+		enterWord(vocabulary);
+
+
 	}
 
 
@@ -221,6 +253,20 @@ public class WordPuzzle {
 	
 	public static void printGameOver(){
 		System.out.println("Game over!");
+	}
+
+	public static void enterWord(String[] vocabulary) {
+		printEnterWordMessage();
+
+		Scanner wordScanner = new Scanner(System.in);
+		String word = wordScanner.nextLine();
+
+		if (WordPuzzle.isInVocabulary(vocabulary, word)) {
+			printEnterYourPattern();
+		} else {
+			printIllegalWordMessage();
+			enterWord(vocabulary);
+		}
 	}
 
 }
