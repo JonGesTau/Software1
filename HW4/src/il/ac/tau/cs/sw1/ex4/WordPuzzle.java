@@ -9,7 +9,12 @@ import java.util.Scanner;
 public class WordPuzzle {
 	public static final char BLANK_CHAR = '_';
 	public static final int MAX_VOCABULARY_SIZE = 3000;
-	
+
+	/**
+	 * Scan the vocabulary
+	 * @param scanner the scanner used to scan the vocabulary
+	 * @return the filtered vocabulary
+	 */
 	public static String[] scanVocabulary(Scanner scanner){
 		String words = "";
 		String inputString = "";
@@ -23,6 +28,7 @@ public class WordPuzzle {
 
 		// Remove duplicates from the string
 		for (String word : input) {
+			// Ignore non alphanumerical characters
 			word = word.replaceAll("^[^a-zA-Z0-9\\s]+|[^a-zA-Z0-9\\s]+$", "");
 			String lowerCaseWord = word.toLowerCase();
 			if (!words.matches(".*\\b" + lowerCaseWord + "\\b.*")) {
@@ -43,7 +49,13 @@ public class WordPuzzle {
 
 		return result;
 	}
-	
+
+	/**
+	 * Check if a word is in the vocabuary.
+	 * @param vocabulary the vocabuary to check
+	 * @param word the word we want to check
+	 * @return true if is in vocabulary, false else.
+	 */
 	public static boolean isInVocabulary(String[] vocabulary, String word){
 		boolean result = false;
 		for (String vocabularyWord : vocabulary) {
@@ -56,7 +68,13 @@ public class WordPuzzle {
 		return result;
 	}
 
-	
+
+	/**
+	 * Check if a pattern is legal.
+	 * @param word the word to we use in the puzzle
+	 * @param pattern the puzzle pattern
+	 * @return ture if the pattern is valid, false else.
+	 */
 	public static boolean checkPattern(String word, String pattern){
 		// Test #1 - Same length
 		if (pattern.length() != word.length()) {
@@ -96,7 +114,12 @@ public class WordPuzzle {
 		}
 		return true;
 	}
-	
+
+	/**
+	 * Count how many blanks are in a pattern.
+	 * @param pattern the pattern we want to check
+	 * @return the amount of blanks in the pattern
+	 */
 	public static int countBlanksInPattern(String pattern){
 		int counter = 0;
 		for (int i = 0; i < pattern.length(); i++) {
@@ -107,6 +130,12 @@ public class WordPuzzle {
 		return counter;
 	}
 
+	/**
+	 * Create a puzzle.
+	 * @param word the word we want to include in the puzzle
+	 * @param pattern the puzzle pattern
+	 * @return a character array of the puzzle.
+	 */
 	public static char[] createPuzzle(String word, String pattern){
 		char[] result = new char[word.length()];
 
@@ -124,8 +153,15 @@ public class WordPuzzle {
 
 		return result;
 	}
-	
-	
+
+
+	/**
+	 * Check if there's only one unique solution to the puzzle
+	 * @param pattern the pattern of the puzzle
+	 * @param puzzle the puzzle
+	 * @param vocabulary the vocabulary
+	 * @return true if theres a unique solution, false else.
+	 */
 	public static boolean hasUniqueSolution(String pattern, char[] puzzle, String[] vocabulary){
 		String possibleMatches = "";
 		int patternLength = pattern.length();
@@ -168,11 +204,19 @@ public class WordPuzzle {
 
 		return false; 
 	}
-	
+
+	/**
+	 * Attempt to guess a letter in the puzzle
+	 * @param guess the letter we think is in the puzzle
+	 * @param word the word in the puzzle
+	 * @param puzzle the puzzle array
+	 * @return the amount of hidden indexes turned visible.
+	 */
 	public static int applyGuess(char guess, String word, char[] puzzle){
 		int matches = 0;
 
 		for (int i = 0; i < word.length(); i++) {
+			// Match only if the ith character in the puzzle is hidden
 			if (puzzle[i] == '_' && word.charAt(i) == guess) {
 				puzzle[i] = guess;
 				matches++;
@@ -182,14 +226,97 @@ public class WordPuzzle {
 		return matches;
 	}
 
+	/**
+	 * Prompt the user to enter a word
+	 * @param vocabulary the used vocabulary
+	 * @param scanner the used scanner
+	 */
+	public static void enterWord(String[] vocabulary, Scanner scanner) {
+		printEnterWordMessage();
+
+		String word = scanner.nextLine();
+
+		if (WordPuzzle.isInVocabulary(vocabulary, word)) {
+			enterPattern(vocabulary, scanner, word);
+		} else {
+			printIllegalWordMessage();
+			enterWord(vocabulary, scanner);
+		}
+	}
+
+	/**
+	 * Prompt the user to enter a pattern
+	 * @param vocabulary the used vocabuary
+	 * @param scanner the used scanner
+	 * @param word the word in the pattern
+	 */
+	public static void enterPattern(String[] vocabulary, Scanner scanner, String word) {
+		printEnterYourPattern();
+		String pattern = scanner.nextLine();
+
+		if (checkPattern(word, pattern) && hasUniqueSolution(pattern, createPuzzle(word, pattern), vocabulary)) {
+			startGame(vocabulary, scanner, word, pattern, createPuzzle(word, pattern));
+		} else {
+			printIllegalPatternMessage();
+			enterPattern(vocabulary, scanner, word);
+		}
+	}
+
+	/**
+	 * Start the game
+	 * @param vocabulary the used vocabuary
+	 * @param scanner the used scanner
+	 * @param word the word in the puzzle
+	 * @param pattern the pattern in the puzzle
+	 * @param puzzle the puzzle array
+	 */
+	public static void startGame(String[] vocabulary, Scanner scanner, String word, String pattern,char[] puzzle) {
+		int ADD_TO_ATTEMPTS = 3;
+		int startBlanksCount = countBlanksInPattern(pattern);
+		int remainigBlanksToSolve = startBlanksCount;
+		int remainingAttempts = startBlanksCount + ADD_TO_ATTEMPTS;
+
+		printGameStageMessage();
+
+		while (remainigBlanksToSolve > 0 && remainingAttempts > 0) {
+			printPuzzle(puzzle);
+
+			printEnterYourGuessMessage();
+			String guess = scanner.nextLine();
+			int flippedBlanks = applyGuess(guess.charAt(0), word, puzzle);
+
+			if (flippedBlanks > 0) {
+				remainigBlanksToSolve -= flippedBlanks;
+				remainingAttempts--;
+				printCorrectGuess(remainingAttempts);
+			} else {
+				remainingAttempts--;
+				printWrongGuess(remainingAttempts);
+			}
+		}
+
+		if (remainigBlanksToSolve == 0) {
+			printWinMessage();
+		} else {
+			printGameOver();
+		}
+
+		return;
+	}
+
 	public static void main(String[] args) throws Exception{
 		String vocabularyText = "";
 		System.out.println("Please provide a file name (e.g src/resources/hw4/vocabulary.txt):");
 
+		// Get the file name of the vocabulary
 		Scanner scanner = new Scanner(System.in);
 		String FILE_NAME = scanner.nextLine();
 
-		// Check for invalid file here
+		if (FILE_NAME.isEmpty()) {
+			throw new Exception("[ERROR] " + "No file name was provided.");
+		} else if (FILE_NAME.length() > 4 && !FILE_NAME.substring(FILE_NAME.length() - 4).equals(".txt")) {
+			throw new Exception("[ERROR] " + "The file entered is not a .txt file.");
+		}
 
 		Scanner vocabularyScanner = new Scanner(new File(FILE_NAME));
 		String[] vocabulary = WordPuzzle.scanVocabulary(vocabularyScanner);
@@ -198,8 +325,6 @@ public class WordPuzzle {
 
 		printSettingsMessage();
 		enterWord(vocabulary, scanner);
-
-
 	}
 
 
@@ -258,70 +383,5 @@ public class WordPuzzle {
 	
 	public static void printGameOver(){
 		System.out.println("Game over!");
-	}
-
-//	public static String getUserInput(String scannerName) {
-//		Scanner scannerName = new Scanner(System.in);
-//		return scannerName.nextLine();
-//	}
-
-	public static void enterWord(String[] vocabulary, Scanner scanner) {
-		printEnterWordMessage();
-
-		String word = scanner.nextLine();
-
-		if (WordPuzzle.isInVocabulary(vocabulary, word)) {
-			enterPattern(vocabulary, scanner, word);
-		} else {
-			printIllegalWordMessage();
-			enterWord(vocabulary, scanner);
-		}
-	}
-
-	public static void enterPattern(String[] vocabulary, Scanner scanner, String word) {
-		printEnterYourPattern();
-		String pattern = scanner.nextLine();
-		char[] puzzle = createPuzzle(word, pattern);
-
-		if (checkPattern(word, pattern) && hasUniqueSolution(pattern, puzzle, vocabulary)) {
-			startGame(vocabulary, scanner, word, pattern, puzzle);
-		} else {
-			printIllegalPatternMessage();
-			enterPattern(vocabulary, scanner, word);
-		}
-	}
-
-	public static void startGame(String[] vocabulary, Scanner scanner, String word, String pattern,char[] puzzle) {
-		int ADD_TO_ATTEMPTS = 3;
-		int startBlanksCount = countBlanksInPattern(pattern);
-		int remainigBlanksToSolve = startBlanksCount;
-		int remainingAttempts = startBlanksCount + ADD_TO_ATTEMPTS;
-
-		printGameStageMessage();
-
-		while (remainigBlanksToSolve > 0 && remainingAttempts > 0) {
-			printPuzzle(puzzle);
-
-			printEnterYourGuessMessage();
-			String guess = scanner.nextLine();
-			int flippedBlanks = applyGuess(guess.charAt(0), word, puzzle);
-
-			if (flippedBlanks > 0) {
-				remainigBlanksToSolve -= flippedBlanks;
-				remainingAttempts--;
-				printCorrectGuess(remainingAttempts);
-			} else {
-				remainingAttempts--;
-				printWrongGuess(remainingAttempts);
-			}
-		}
-
-		if (remainigBlanksToSolve == 0) {
-			printWinMessage();
-		} else {
-			printGameOver();
-		}
-
-		return;
 	}
 }
