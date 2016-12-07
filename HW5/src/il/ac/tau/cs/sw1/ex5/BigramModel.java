@@ -23,7 +23,7 @@ public class BigramModel {
 		String line;
 		int counter = 0;
 		while ((line = bufferedReader.readLine()) != null && counter < MAX_VOCABULARY_SIZE) {
-			fileText += line + '\n';
+			fileText += line + " ";
 			String[] words = line.split(" ");
 			for (String word : words) {
 				String vocabularyWord = getValidWord(word);
@@ -44,7 +44,7 @@ public class BigramModel {
 
 		bigramCounts = new int[vocabulary.length][vocabulary.length];
 
-		String[] textLines = fileText.split("\n");
+		String[] textLines = fileText.split(" ");
 
 		for (int i = 0; i < vocabulary.length; i++) {
 			String word1 = vocabulary[i].replaceAll("\\p{P}","");
@@ -52,19 +52,16 @@ public class BigramModel {
 			for (int j = 0; j < vocabulary.length; j++) {
 				String word2 = vocabulary[j].replaceAll("\\p{P}","");
 
-				for (String lineOfText : textLines) {
-					String[] words = lineOfText.split(" ");
+				for (int k = 0; k < textLines.length - 1; k++) {
+					String firstWord = textLines[k].replaceAll("\\p{P}","").toLowerCase();
+					String secondWord = textLines[k+1].replaceAll("\\p{P}","").toLowerCase();
 
-					for (int k = 0; k < words.length - 1; k++) {
-						if (words[k].equals(word1) && words[k+1].equals(word2)) {
-							bigramCounts[i][j]++;
-						}
+					if (firstWord.equals(word1) && secondWord.equals(word2)) {
+						bigramCounts[i][j]++;
 					}
 				}
 			}
 		}
-
-
 
 		return vocabulary.length;
 	}
@@ -74,8 +71,28 @@ public class BigramModel {
 	 * @pre: fileName is a valid path
 	 */
 	public boolean saveModelToFile(String fileName) throws IOException{
-		// replace with your code
-	    return false;
+		if (vocabulary == null || bigramCounts == null) {
+			return false;
+		}
+
+		File toFile = new File(fileName);
+		BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(toFile));
+
+		bufferedWriter.write(vocabulary.length + " words\r\n");
+		for (int i = 0; i < vocabulary.length; i++) {
+			String word1 = vocabulary[i];
+
+			for (int j = 0; j < bigramCounts[i].length; j++) {
+				String word2 = vocabulary[j];
+				int coupleCount = bigramCounts[i][j];
+
+				if (coupleCount > 0) {
+					bufferedWriter.write(word1 + ", " + word2 + ": " + coupleCount + " ");
+				}
+			}
+		}
+		bufferedWriter.close();
+	    return true;
 	}
 	
 	/*
