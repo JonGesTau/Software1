@@ -1,5 +1,7 @@
 package il.ac.tau.cs.sw1.ex5;
 
+import com.sun.xml.internal.ws.util.StringUtils;
+
 import java.io.*;
 
 public class BigramModel {
@@ -15,21 +17,54 @@ public class BigramModel {
 		File fromFile = new File(fileName);
 		BufferedReader bufferedReader = new BufferedReader(new FileReader(fromFile));
 		String vocabularyString = "";
+		int numWordsInVocabulary = 0;
+		String fileText = "";
 
 		String line;
 		int counter = 0;
 		while ((line = bufferedReader.readLine()) != null && counter < MAX_VOCABULARY_SIZE) {
+			fileText += line + '\n';
 			String[] words = line.split(" ");
 			for (String word : words) {
 				String vocabularyWord = getValidWord(word);
-				if (vocabularyWord != "" && !vocabularyString.matches(".*\\b" + vocabularyWord + "\\b.*")) {
-					vocabularyString += vocabularyWord + " ";
+				if (vocabularyWord != "") {
+					// Remove parentheses and punctuation marks.
+					vocabularyWord = vocabularyWord.replaceAll("\\p{P}","");
+					if (!vocabularyString.matches(".*\\b" + vocabularyWord + "\\b.*")) {
+						vocabularyString += vocabularyWord + " ";
+					}
 				}
 			}
 			counter++;
 		}
 
 		vocabulary = vocabularyString.split(" ");
+
+		bufferedReader.close();
+
+		bigramCounts = new int[vocabulary.length][vocabulary.length];
+
+		String[] textLines = fileText.split("\n");
+
+		for (int i = 0; i < vocabulary.length; i++) {
+			String word1 = vocabulary[i].replaceAll("\\p{P}","");
+
+			for (int j = 0; j < vocabulary.length; j++) {
+				String word2 = vocabulary[j].replaceAll("\\p{P}","");
+
+				for (String lineOfText : textLines) {
+					String[] words = lineOfText.split(" ");
+
+					for (int k = 0; k < words.length - 1; k++) {
+						if (words[k].equals(word1) && words[k+1].equals(word2)) {
+							bigramCounts[i][j]++;
+						}
+					}
+				}
+			}
+		}
+
+
 
 		return vocabulary.length;
 	}

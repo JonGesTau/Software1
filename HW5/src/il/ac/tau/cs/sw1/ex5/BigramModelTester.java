@@ -9,7 +9,7 @@ public class BigramModelTester {
 
 	public static void main(String[] args) throws IOException{
 		BigramModel sG = new BigramModel();
-		int numOfWords = sG.buildModelFromFile(EMMA_FILENAME);
+		int numOfWords = sG.buildModelFromFile(ALL_YOU_NEED_FILENAME);
 		if (numOfWords != 5){
 			System.out.println("Error 1");
 		}
