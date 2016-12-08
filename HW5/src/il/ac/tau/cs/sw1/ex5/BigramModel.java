@@ -175,8 +175,22 @@ public class BigramModel {
 	 * word was never seen, $ret will be null
 	 */
 	public String getMostFrequentProceeding(String word){
-		// replace with your code
-		return null;
+		String result = "";
+		int max = 0;
+
+		for (int i = 0; i < bigramCounts[getWordIndex(word)].length; i++) {
+			int occurences = bigramCounts[getWordIndex(word)][i];
+			if (occurences > max) {
+				max = occurences;
+				result = vocabulary[i];
+			}
+		}
+
+		if (max == 0) {
+			result = null;
+		}
+
+		return result;
 	}
 	
 	/* @pre: n > 1, word is in lowercase
@@ -185,8 +199,25 @@ public class BigramModel {
 	 * otherwise, $ret = ""
 	 */
 	public String buildSentence(String word, int n){
-		// replace with your code
-		return null;
+		String result;
+		if (getWordIndex(word) == NOT_FOUND) {
+			return "";
+		} else {
+			result = word;
+			int counter = 0;
+			while (counter < n - 1) {
+				String[] sentenceArray = result.split(" ");
+				String lastWord = sentenceArray[sentenceArray.length - 1];
+				if (getMostFrequentProceeding(lastWord) == null) {
+					counter = n;
+				} else {
+					result += " " + getMostFrequentProceeding(lastWord);
+					counter++;
+				}
+			}
+		}
+
+		return result;
 	}
 	
 	
