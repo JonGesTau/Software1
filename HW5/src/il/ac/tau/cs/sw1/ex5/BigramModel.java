@@ -8,6 +8,7 @@ public class BigramModel {
 	// constants 
 	public static final int MAX_VOCABULARY_SIZE = 15000;
 	public static final String SOME_NUM = "some_num";
+	public static final int NOT_FOUND = -1;
 	
 	// class members
 	private String[] vocabulary;
@@ -120,17 +121,17 @@ public class BigramModel {
 				String word2 = line.split(", ")[1].split(": ")[0];
 				int coupleCount = Integer.parseInt(line.split(", ")[1].split(": ")[1]);
 
-				if (getStringIndex(vocabulary, word1) == -1) {
+				if (getWordIndex(word1) == NOT_FOUND) {
 					vocabulary[counter] = word1;
 					counter++;
 				}
 
-				if (getStringIndex(vocabulary, word2) == -1) {
+				if (getWordIndex(word2) == NOT_FOUND) {
 					vocabulary[counter] = word2;
 					counter++;
 				}
 
-				bigramCounts[getStringIndex(vocabulary, word1)][getStringIndex(vocabulary, word2)] = coupleCount;
+				bigramCounts[getWordIndex(word1)][getWordIndex(word2)] = coupleCount;
 			}
 		}
 		return vocabulary.length;
@@ -142,8 +143,15 @@ public class BigramModel {
 	 * @post: $ret = -1 if word is not in vocabulary, otherwise $ret = the index of word in vocabulary
 	 */
 	public int getWordIndex(String word){
-		// replace with your code
-		return 0;
+		if (vocabulary.length > 0) {
+			for (int i = 0; i < vocabulary.length; i++) {
+				if (word.equals(vocabulary[i])) {
+					return i;
+				}
+			}
+		}
+
+		return NOT_FOUND;
 	}
 	
 	/*
@@ -153,8 +161,11 @@ public class BigramModel {
 	 * exist in the vocabulary, $ret = 0
 	 */
 	public int getBigramCount(String word1, String word2){
-		// replace with your code
-		return 0;
+		if (getWordIndex(word1) == NOT_FOUND || getWordIndex(word2) == NOT_FOUND) {
+			return 0;
+		} else {
+			return bigramCounts[getWordIndex(word1)][getWordIndex(word2)];
+		}
 	}
 	
 	/*
@@ -212,18 +223,5 @@ public class BigramModel {
 		}
 
 		return result;
-	}
-
-
-	public static int getStringIndex(String[] array, String item) {
-		if (array.length > 0) {
-			for (int i = 0; i < array.length; i++) {
-				if (item.equals(array[i])) {
-					return i;
-				}
-			}
-		}
-
-		return -1;
 	}
 }
