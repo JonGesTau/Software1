@@ -23,7 +23,7 @@ public class BigramModelTester {
 //			System.out.println("Error 4");
 //		}
 		sG.saveModelToFile(ALL_YOU_NEED_COUNTS_DIR);
-//		sG.loadModelFromFile(ALL_YOU_NEED_COUNTS_DIR);
+		sG.loadModelFromFile(ALL_YOU_NEED_COUNTS_DIR);
 //		if (sG.getBigramCount("is", "love") != 3){
 //			System.out.println("Error 4");
 //		}

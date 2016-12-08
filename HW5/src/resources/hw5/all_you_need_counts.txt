@@ -1,2 +1,9 @@
 5 words
-all, you: 4 you, need: 4 need, is: 3 is, all: 1 is, love: 3 love, all: 2 love, is: 1 love, love: 2 
+all, you: 4
+you, need: 4
+need, is: 3
+is, all: 1
+is, love: 3
+love, all: 2
+love, is: 1
+love, love: 2

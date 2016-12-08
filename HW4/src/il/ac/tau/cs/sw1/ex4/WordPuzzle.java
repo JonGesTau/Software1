@@ -306,11 +306,10 @@ public class WordPuzzle {
 
 	public static void main(String[] args) throws Exception{
 		String vocabularyText = "";
-		System.out.println("Please provide a file name (e.g src/resources/hw4/vocabulary.txt):");
 
 		// Get the file name of the vocabulary
 		Scanner scanner = new Scanner(System.in);
-		String FILE_NAME = scanner.nextLine();
+		String FILE_NAME = args[0];
 
 		if (FILE_NAME.isEmpty()) {
 			throw new Exception("[ERROR] " + "No file name was provided.");

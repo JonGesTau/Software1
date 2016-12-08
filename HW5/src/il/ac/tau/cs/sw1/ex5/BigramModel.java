@@ -87,7 +87,7 @@ public class BigramModel {
 				int coupleCount = bigramCounts[i][j];
 
 				if (coupleCount > 0) {
-					bufferedWriter.write(word1 + ", " + word2 + ": " + coupleCount + " ");
+					bufferedWriter.write(word1 + ", " + word2 + ": " + coupleCount + '\n');
 				}
 			}
 		}
@@ -99,8 +99,41 @@ public class BigramModel {
 	 * @pre: fileName is a valid path that contains a model with a legal format
 	 */
 	public int loadModelFromFile(String fileName) throws IOException{
-		// replace with your code
-		return 0;
+		vocabulary = null;
+		bigramCounts = null;
+
+		File fromFile = new File(fileName);
+		BufferedReader bufferedReader = new BufferedReader(new FileReader(fromFile));
+
+		String line;
+		String vocabularyString = "";
+		int counter = 0;
+		int vocabularySize = 0;
+
+		while ((line = bufferedReader.readLine()) != null) {
+			if (vocabularySize == 0) {
+				vocabularySize = Integer.parseInt(line.split(" ")[0]);
+				vocabulary = new String[vocabularySize];
+				bigramCounts = new int[vocabularySize][vocabularySize];
+			} else {
+				String word1 = line.split(", ")[0];
+				String word2 = line.split(", ")[1].split(": ")[0];
+				int coupleCount = Integer.parseInt(line.split(", ")[1].split(": ")[1]);
+
+				if (getStringIndex(vocabulary, word1) == -1) {
+					vocabulary[counter] = word1;
+					counter++;
+				}
+
+				if (getStringIndex(vocabulary, word2) == -1) {
+					vocabulary[counter] = word2;
+					counter++;
+				}
+
+				bigramCounts[getStringIndex(vocabulary, word1)][getStringIndex(vocabulary, word2)] = coupleCount;
+			}
+		}
+		return vocabulary.length;
 	}
 	
 	/*
@@ -179,5 +212,18 @@ public class BigramModel {
 		}
 
 		return result;
+	}
+
+
+	public static int getStringIndex(String[] array, String item) {
+		if (array.length > 0) {
+			for (int i = 0; i < array.length; i++) {
+				if (item.equals(array[i])) {
+					return i;
+				}
+			}
+		}
+
+		return -1;
 	}
 }
