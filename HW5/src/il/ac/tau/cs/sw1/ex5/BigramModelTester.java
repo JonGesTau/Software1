@@ -41,14 +41,14 @@ public class BigramModelTester {
 		if (BigramModel.calcCosineSim(new int[] {1,2,0,4, 2}, new int[] {5, 0, 3, 1, 1}) != 11./30){
 			System.out.println("Error 8");
 		}
-//		sG.buildModelFromFile(EMMA_FILENAME);
-//		if (!sG.getClosestWord("scheme").equals("trick")){
-//			System.out.println("Error 9");
-//		}
-//		if (!sG.getClosestWord("good").equals("great")){
-//			System.out.println("Error 10");
-//		}
-//		System.out.println("done!");
+		sG.buildModelFromFile(EMMA_FILENAME);
+		if (!sG.getClosestWord("scheme").equals("trick")){
+			System.out.println("Error 9");
+		}
+		if (!sG.getClosestWord("good").equals("great")){
+			System.out.println("Error 10");
+		}
+		System.out.println("done!");
 
 	}
 }

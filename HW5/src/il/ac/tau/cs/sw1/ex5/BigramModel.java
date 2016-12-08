@@ -228,8 +228,20 @@ public class BigramModel {
 	 * other words in vocabulary
 	 */
 	public String getClosestWord(String word){
-		// replace with your code
-		return null;
+		int[] wordVector = bigramCounts[getWordIndex(word)];
+		double max = 0;
+		String result = "";
+
+		for (String vocabularyWord : vocabulary) {
+			int[] vocabuaryWordVector = bigramCounts[getWordIndex(vocabularyWord)];
+			double cosineSim = calcCosineSim(wordVector, vocabuaryWordVector);
+			if (cosineSim > max) {
+				max = cosineSim;
+				result = vocabularyWord;
+			}
+		}
+
+		return result;
 	}
 	
 	/*
