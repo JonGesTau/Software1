@@ -24,7 +24,10 @@ public class BigramModel {
 		String line;
 		int vocabularySize = 0;
 		while ((line = bufferedReader.readLine()) != null && vocabularySize < MAX_VOCABULARY_SIZE) {
-			fileText += line + " ";
+			if (line.length() != 0) {
+				fileText += line.trim() + " ";
+			}
+
 			String[] words = line.split(" ");
 			for (String word : words) {
 				String vocabularyWord = getValidWord(word);

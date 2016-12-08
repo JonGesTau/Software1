@@ -42,9 +42,6 @@ public class BigramModelTester {
 			System.out.println("Error 8");
 		}
 		sG.buildModelFromFile(EMMA_FILENAME);
-		sG.getCouple("scheme");
-		sG.getCouple("trick");
-		sG.getCouple("hope");
 
 		if (!sG.getClosestWord("scheme").equals("trick")){
 			System.out.println("Error 9");
