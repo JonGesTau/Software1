@@ -237,8 +237,18 @@ public class BigramModel {
 	 * post if arr1 or arr2 are only filled with zeros, $ret = 0, otherwise
 	 */
 	public static double calcCosineSim(int[] arr1, int[] arr2){
-		// replace with your code
-		return 0;
+		if (isAllArrayZeros(arr1) || isAllArrayZeros(arr2)) {
+			return 0;
+		} else {
+			double numerator = 0;
+			double denominator = calcVectorSize(arr1) * calcVectorSize(arr2);
+
+			for (int i = 0; i < arr1.length; i++) {
+				numerator += arr1[i] * arr2[i];
+			}
+
+			return numerator / denominator;
+		}
 	}
 
 	public static String getValidWord(String word) {
@@ -254,5 +264,24 @@ public class BigramModel {
 		}
 
 		return result;
+	}
+
+	public static boolean isAllArrayZeros(int[] array) {
+		for (int item : array) {
+			if (item != 0) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	public static double calcVectorSize(int[] vector) {
+		double sqauresSum = 0;
+		for (int cordinate : vector) {
+			sqauresSum += Math.pow(cordinate, 2);
+		}
+
+		return Math.sqrt(sqauresSum);
 	}
 }

@@ -38,9 +38,9 @@ public class BigramModelTester {
 			the word with the lowest index, we pick all over love */
 			System.out.println("Error 7");
 		}
-//		if (BigramModel.calcCosineSim(new int[] {1,2,0,4, 2}, new int[] {5, 0, 3, 1, 1}) != 11./30){
-//			System.out.println("Error 8");
-//		}
+		if (BigramModel.calcCosineSim(new int[] {1,2,0,4, 2}, new int[] {5, 0, 3, 1, 1}) != 11./30){
+			System.out.println("Error 8");
+		}
 //		sG.buildModelFromFile(EMMA_FILENAME);
 //		if (!sG.getClosestWord("scheme").equals("trick")){
 //			System.out.println("Error 9");
