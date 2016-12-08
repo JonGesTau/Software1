@@ -22,21 +22,19 @@ public class BigramModel {
 		String fileText = "";
 
 		String line;
-		int counter = 0;
-		while ((line = bufferedReader.readLine()) != null && counter < MAX_VOCABULARY_SIZE) {
+		int vocabularySize = 0;
+		while ((line = bufferedReader.readLine()) != null && vocabularySize < MAX_VOCABULARY_SIZE) {
 			fileText += line + " ";
 			String[] words = line.split(" ");
 			for (String word : words) {
 				String vocabularyWord = getValidWord(word);
 				if (vocabularyWord != "") {
-					// Remove parentheses and punctuation marks.
-					vocabularyWord = vocabularyWord.replaceAll("\\p{P}","");
-					if (!vocabularyString.matches(".*\\b" + vocabularyWord + "\\b.*")) {
+					if (getStringIndex(vocabularyString.split(" "), vocabularyWord) == NOT_FOUND || vocabularyString == "") {
 						vocabularyString += vocabularyWord + " ";
+						vocabularySize++;
 					}
 				}
 			}
-			counter++;
 		}
 
 		vocabulary = vocabularyString.split(" ");
@@ -47,23 +45,14 @@ public class BigramModel {
 
 		String[] textLines = fileText.split(" ");
 
-		for (int i = 0; i < vocabulary.length; i++) {
-			String word1 = vocabulary[i].replaceAll("\\p{P}","");
+		for (int k = 0; k < textLines.length - 1; k++) {
+			String firstWord = textLines[k].toLowerCase();
+			String secondWord = textLines[k+1].toLowerCase();
 
-			for (int j = 0; j < vocabulary.length; j++) {
-				String word2 = vocabulary[j].replaceAll("\\p{P}","");
-
-				for (int k = 0; k < textLines.length - 1; k++) {
-					String firstWord = textLines[k].replaceAll("\\p{P}","").toLowerCase();
-					String secondWord = textLines[k+1].replaceAll("\\p{P}","").toLowerCase();
-
-					if (firstWord.equals(word1) && secondWord.equals(word2)) {
-						bigramCounts[i][j]++;
-					}
-				}
+			if (getWordIndex(firstWord) != NOT_FOUND && getWordIndex(secondWord) != NOT_FOUND) {
+				bigramCounts[getWordIndex(firstWord)][getWordIndex(secondWord)]++;
 			}
 		}
-
 		return vocabulary.length;
 	}
 
@@ -233,14 +222,15 @@ public class BigramModel {
 		String result = "";
 
 		for (String vocabularyWord : vocabulary) {
-			int[] vocabuaryWordVector = bigramCounts[getWordIndex(vocabularyWord)];
-			double cosineSim = calcCosineSim(wordVector, vocabuaryWordVector);
-			if (cosineSim > max) {
-				max = cosineSim;
-				result = vocabularyWord;
+			if (!vocabularyWord.equals(word)) {
+				int[] vocabuaryWordVector = bigramCounts[getWordIndex(vocabularyWord)];
+				double cosineSim = calcCosineSim(wordVector, vocabuaryWordVector);
+				if (cosineSim > max) {
+					max = cosineSim;
+					result = vocabularyWord;
+				}
 			}
 		}
-
 		return result;
 	}
 	
@@ -265,7 +255,7 @@ public class BigramModel {
 
 	public static String getValidWord(String word) {
 		String result = "";
-		if (!word.matches(".*[a-z].*")) {
+		if (!word.matches(".*[a-zA-Z]+.*")) {
 			return result;
 		}
 
@@ -296,4 +286,17 @@ public class BigramModel {
 
 		return Math.sqrt(sqauresSum);
 	}
+
+	public int getStringIndex(String[] array, String word){
+		if (array.length > 0) {
+			for (int i = 0; i < array.length; i++) {
+				if (word.equals(array[i])) {
+					return i;
+				}
+			}
+		}
+
+		return NOT_FOUND;
+	}
+
 }
