@@ -1,7 +1,9 @@
 package il.ac.tau.cs.sw1.Sets;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Sets {
 	private static int lastId = 0;
@@ -68,8 +70,14 @@ public class Sets {
 	 */
 	public boolean inASet(int x)
 	{
+		Sets sets = this;
+		for (int i = 0; i < sets.allSets.size(); i++) {
+			if (sets.allSets.get(i) == x) {
+				return true;
+			}
+		}
+
 		return false;
-		//TODO
 	}
 	/**
 	* @pre there exists i such that x is in Si
@@ -77,8 +85,15 @@ public class Sets {
 	 */
 	public int numOfSets(int x)
 	{
-		return 0;
-		//TODO
+		int counter = 0;
+		Sets sets = this;
+		for (int i = 0; i < sets.allSets.size(); i++) {
+			if (sets.allSets.get(i) == x) {
+				counter++;
+			}
+		}
+
+		return counter;
 	}
 
 	/**
@@ -88,8 +103,15 @@ public class Sets {
 	 */
 	public int getNumSets() 
 	{
-		return 0;
-		//TODO
+		int counter = 0;
+		Sets sets = this;
+		for (int i = 0; i < sets.allSets.size(); i++) {
+			if (sets.allSets.get(i) != null) {
+				counter++;
+			}
+		}
+
+		return counter;
 	}
 
 	/**
@@ -99,8 +121,9 @@ public class Sets {
 	 */
 	public int getNumValues()
 	{
-		return 0;
-		//TODO
+		Sets sets = this;
+		Set<Integer> setOfSets = new HashSet<Integer>(sets.allSets);
+		return setOfSets.size();
 	}
 
 
