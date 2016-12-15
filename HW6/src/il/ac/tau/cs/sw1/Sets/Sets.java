@@ -1,13 +1,27 @@
 package il.ac.tau.cs.sw1.Sets;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Sets {
-	
+	private static int lastId = 0;
+	private int id;
+	private int numSets;
+	ArrayList<Integer> allSets = new ArrayList<Integer>();
+
 	public Sets(int[] is) {
-		// TODO Auto-generated constructor stub
+		this();
+		this.numSets = is.length;
+		for (int set : is) {
+			allSets.add(set);
+		}
 	}
 
 	public Sets() {
-		// TODO Auto-generated constructor stub
+		this.id = lastId++;
+		this.lastId++;
+		this.numSets = 0;
+		this.allSets = allSets;
 	}
 
 	/**
@@ -18,7 +32,9 @@ public class Sets {
 	 */
 	public void makeSet(int x) 
 	{
-		//TODO
+		Sets sets = this;
+		sets.allSets.add(x);
+		sets.numSets++;
 	}
 	
 	/**
@@ -28,9 +44,19 @@ public class Sets {
 	 * @post for all i: x not in Si
 	 * * @return the number of occurrences deleted
 	 */
-	public void delete(int x) 
+	public int delete(int x)
 	{
-		//TODO
+		Sets sets = this;
+		int removed = 0;
+		for (int i = 0; i < sets.allSets.size(); i++) {
+			if (sets.allSets.get(i) == x) {
+				sets.allSets.remove(i);
+				sets.numSets--;
+				removed--;
+			}
+		}
+
+		return removed;
 	}
 
 
