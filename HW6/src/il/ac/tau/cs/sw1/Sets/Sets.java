@@ -2,14 +2,13 @@ package il.ac.tau.cs.sw1.Sets;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class Sets {
 	private static int lastId = 0;
 	private int id;
 	private int numSets;
-	ArrayList<Integer> allSets = new ArrayList<Integer>();
+	private ArrayList<Integer> allSets = new ArrayList<Integer>();
 
 	public Sets(int[] is) {
 		this();
@@ -50,8 +49,9 @@ public class Sets {
 	{
 		Sets sets = this;
 		int removed = 0;
-		for (int i = 0; i < sets.allSets.size(); i++) {
-			if (sets.allSets.get(i) == x) {
+		int[][] allSetsArray = convertSetsListToArray();
+		for (int i = 0; i < allSetsArray.length; i++) {
+			if (allSetsArray[i][0] == x) {
 				sets.allSets.remove(i);
 				sets.numSets--;
 				removed--;
@@ -71,8 +71,9 @@ public class Sets {
 	public boolean inASet(int x)
 	{
 		Sets sets = this;
-		for (int i = 0; i < sets.allSets.size(); i++) {
-			if (sets.allSets.get(i) == x) {
+		int[][] allSetsArray = convertSetsListToArray();
+		for (int i = 0; i < allSetsArray.length; i++) {
+			if (allSetsArray[i][0] == x) {
 				return true;
 			}
 		}
@@ -87,8 +88,9 @@ public class Sets {
 	{
 		int counter = 0;
 		Sets sets = this;
-		for (int i = 0; i < sets.allSets.size(); i++) {
-			if (sets.allSets.get(i) == x) {
+		int[][] allSetsArray = convertSetsListToArray();
+		for (int i = 0; i < allSetsArray.length; i++) {
+			if (allSetsArray[i][0] == x) {
 				counter++;
 			}
 		}
@@ -101,17 +103,12 @@ public class Sets {
 	 * 
 	 * @return |S|
 	 */
-	public int getNumSets() 
+	public int getNumSets()
 	{
 		int counter = 0;
 		Sets sets = this;
-		for (int i = 0; i < sets.allSets.size(); i++) {
-			if (sets.allSets.get(i) != null) {
-				counter++;
-			}
-		}
-
-		return counter;
+		int[][] allSetsArray = convertSetsListToArray();
+		return allSetsArray.length > 0 ? allSetsArray.length : 0;
 	}
 
 	/**
@@ -126,5 +123,14 @@ public class Sets {
 		return setOfSets.size();
 	}
 
+	private int[][] convertSetsListToArray() {
+		Sets sets = this;
+		int[][] allSetsArray = new int[sets.allSets.size()][1];
+		for (int i = 0; i < allSetsArray.length; i++) {
+			allSetsArray[i] = new int[] {sets.allSets.get(i)};
+		}
+
+		return allSetsArray;
+	}
 
 }
