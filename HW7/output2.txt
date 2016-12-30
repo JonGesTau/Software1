@@ -1,0 +1,13 @@
+Land vehicles:
+
+Total land vehicles:2
+Total passengers possible:145
+Max speed:210
+Min speed:110
+
+Sea vessels:
+
+Total sea vessels:2
+Total passengers possible:150
+Max speed:110
+Min speed:15
