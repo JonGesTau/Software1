@@ -25,7 +25,7 @@ public class Boat implements SeaVessel {
 	}
 
 	public void launch() {
-		System.out.println('launch');
+		System.out.println("launch");
 	}
 
 	public String getDetails() {

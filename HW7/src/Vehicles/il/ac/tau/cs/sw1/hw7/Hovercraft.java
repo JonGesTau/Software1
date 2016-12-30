@@ -31,11 +31,11 @@ public class Hovercraft implements SeaVessel, LandVehicle {
 	}
 
 	public void drive() {
-		System.out.println('drive');
+		System.out.println("drive");
 	}
 
 	public void launch() {
-		System.out.println('launch');
+		System.out.println("launch");
 	}
 
 	public String getDetails() {

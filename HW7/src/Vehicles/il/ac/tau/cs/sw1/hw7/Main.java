@@ -3,17 +3,15 @@ package Vehicles.il.ac.tau.cs.sw1.hw7;
 import java.lang.reflect.Array;
 import java.util.Scanner;
 
-import static Vehicles.il.ac.tau.cs.sw1.hw7.Main.promptUser;
-
 public class Main {
 	public static Scanner scanner = new Scanner(System.in);
-	public static final int MAX_VEHICLES;
+	public static final int MAX_VEHICLES = 20;
 
 	public static void main(String [] args)
 	{
 		Vehicle [] vehicles = getVehicleFromUser();
-		writeVehiclesToFile(args[0], vehicles);
-		writeVehiclesSummaryToFile(args[1], vehicles);
+//		writeVehiclesToFile(args[0], vehicles);
+//		writeVehiclesSummaryToFile(args[1], vehicles);
 
 
 	}
@@ -28,18 +26,31 @@ public class Main {
 
 			switch (type) {
 				case "J":
+					vehicles[numOfVehicles] = getParamsFromUser(type);
+					System.out.println("Vehicle added: [" + ((Jeep) vehicles[numOfVehicles]).getDetails() + "]");
+					numOfVehicles++;
+					break;
 				case "B":
+					vehicles[numOfVehicles] = getParamsFromUser(type);
+					System.out.println("Vehicle added: [" + ((Boat) vehicles[numOfVehicles]).getDetails() + "]");
+					numOfVehicles++;
+					break;
 				case "H":
 					vehicles[numOfVehicles] = getParamsFromUser(type);
+					System.out.println("Vehicle added: [" + ((Hovercraft) vehicles[numOfVehicles]).getDetails() + "]");
 					numOfVehicles++;
+					break;
 				case "X":
 					System.out.println("exit");
+					break;
 				default:
 					System.out.println("Unknown command. Please try again.");
-					type = getTypeFromUser();
+					break;
 			}
 
 		}
+
+		return vehicles;
 	}
 	
 	public static void writeVehiclesToFile(String outputFilename, Vehicle[] vehicles) 
@@ -63,26 +74,25 @@ public class Main {
 	}
 
 	private static Vehicle getParamsFromUser(String type) {
-		int wheels;
+		int wheels = 0;
 		String name = promptUser("Please enter name:");
-		String passengers = promptUser("Please enter max passengers:");
+		int passengers = Integer.parseInt(promptUser("Please enter max passengers:"));
 		int speed = Integer.parseInt(promptUser("Please enter max speed:"));
 
-		if (type == "J" || type == "H") {
-			wheels= Integer.parseInt(promptUser("Please enter num of wheels:"));
+		if (type.equals("J") || type.equals("H")) {
+			wheels = Integer.parseInt(promptUser("Please enter num of wheels:"));
 		}
 
 		switch (type) {
 			case "J":
-				return new Jeep(passengers, name, speed, wheels)
-				break;
+				return new Jeep(passengers, name, speed, wheels);
 			case "B":
-				return new Boat(passengers, name, speed)
-				break;
+				return new Boat(passengers, name, speed);
 			case "H":
-				return new Hovercraft(passengers, name, speed, wheels)
-				break;
+				return new Hovercraft(passengers, name, speed, wheels);
 		}
+
+		return null;
 	}
 
 	private static String promptUser(String message) {
@@ -91,8 +101,8 @@ public class Main {
 		if (input.isEmpty()) {
 			System.out.println("Illegal input. Please try again.");
 			promptUser(message);
-		} else {
-			return input;
 		}
+
+		return input;
 	}
 }

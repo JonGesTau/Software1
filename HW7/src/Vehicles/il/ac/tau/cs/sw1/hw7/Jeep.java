@@ -31,7 +31,7 @@ public class Jeep implements LandVehicle {
 	}
 
 	public void drive() {
-		System.out.println('drive');
+		System.out.println("drive");
 	}
 
 	public String getDetails() {
