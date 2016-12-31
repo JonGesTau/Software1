@@ -52,7 +52,7 @@ public class Boat implements SeaVessel {
 		return x;
 	}
 
-	public void setX(x) {
+	public void setX(int x) {
 		this.x = x;
 	}
 
@@ -60,7 +60,7 @@ public class Boat implements SeaVessel {
 		return y;
 	}
 
-	public void setY(y) {
+	public void setY(int y) {
 		this.y = y;
 	}
 

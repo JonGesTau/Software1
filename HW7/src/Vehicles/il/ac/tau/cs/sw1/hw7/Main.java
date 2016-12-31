@@ -12,20 +12,21 @@ public class Main {
 	public static Scanner scanner = new Scanner(System.in);
 	public static final int MAX_VEHICLES = 20;
 
-	public static void main(String [] args)
-	{
+	public static void main(String [] args) throws IOException {
 		Vehicle [] vehicles = getVehicleFromUser();
-		try {
-			writeVehiclesToFile(args[0], vehicles);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		try {
-			writeVehiclesSummaryToFile(args[1], vehicles);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		writeVehiclesToFile(args[0], vehicles);
+		writeVehiclesSummaryToFile(args[1], vehicles);
 
+//		VehicleInSpace[] vehicles = {
+//				new Jeep(5, "Grand", 210, 4),
+//				new Hovercraft(140, "Pomoronik", 110, 8),
+//				new Boat(10, "Caravel", 15)
+//		};
+//
+//		vehicles[0].move(1, 4);
+//		vehicles[1].move(4, 1);
+//
+//		System.out.println(getTravelTime(vehicles, 3, 1, 3, 3, 6, true));
 
 	}
 	
@@ -201,5 +202,70 @@ public class Main {
 		}
 
 		return input;
+	}
+
+	public static double getTravelTime(VehicleInSpace[] vehicles, int source_x, int source_y, int dest_x, int dest_y, int passengers, boolean land) {
+		double fastestTime = 0;
+		double totalDistance = 0;
+		double totalTime = 0;
+
+		for (VehicleInSpace vehicleInSpace : vehicles) {
+			Vehicle vehicle = (Vehicle) vehicleInSpace;
+			if (vehicle == null) { break; }
+			String type = vehicle.getClass().getSimpleName();
+			if (isPossibleToTravel(type, vehicle, passengers, land)) {
+				switch (type) {
+					case "Jeep":
+						Jeep jeep = (Jeep) (vehicle);
+						totalDistance = calcDistance(jeep.getX(), jeep.getY(), source_x, source_y) + calcDistance(source_x, source_y, dest_x, dest_y);
+						totalTime = totalDistance / jeep.getMaxSpeed();
+						if (totalTime < fastestTime || fastestTime == 0) {
+							fastestTime = totalTime;
+						}
+						break;
+					case "Boat":
+						Boat boat = (Boat) (vehicle);
+						totalDistance = calcDistance(boat.getX(), boat.getY(), source_x, source_y) + calcDistance(source_x, source_y, dest_x, dest_y);
+						totalTime = totalDistance / boat.getMaxSpeed();
+						if (totalTime < fastestTime  || fastestTime == 0) {
+							fastestTime = totalTime;
+						}
+						break;
+					case "Hovercraft":
+						Hovercraft hovercraft = (Hovercraft) (vehicle);
+						totalDistance = calcDistance(hovercraft.getX(), hovercraft.getY(), source_x, source_y) + calcDistance(source_x, source_y, dest_x, dest_y);
+						totalTime = totalDistance / hovercraft.getMaxSpeed();
+						if (totalTime < fastestTime || fastestTime == 0) {
+							fastestTime = totalTime;
+						}
+						break;
+				}
+
+				return fastestTime;
+			}
+		}
+
+		return -1;
+	}
+
+	private static boolean isPossibleToTravel(String type, VehicleInSpace vehicleInSpace, int passengers, boolean land) {
+		Vehicle vehicle = (Vehicle) vehicleInSpace;
+		if (passengers > vehicle.getMaxPassengers()) { return false; }
+		switch (type) {
+			case "Jeep":
+				if (!land) { return false; }
+				break;
+			case "Boat":
+				if (land) { return false; }
+				break;
+		}
+
+		return true;
+	}
+
+	private static double calcDistance(int source_x, int source_y, int dest_x, int dest_y) {
+		double sourceDiff = (double) (source_x - dest_x);
+		double destDiff = (double) (source_y - dest_y);
+		return Math.sqrt(Math.pow(sourceDiff, 2) + Math.pow(destDiff, 2));
 	}
 }

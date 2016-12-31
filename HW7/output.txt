@@ -1,9 +1,7 @@
 Land vehicles:
 
-Jeep: name:Grand-Cherokee, max-passengers:5, max-speed:210, num-of-wheels:4
-Hovercraft: name:Pomoronik, max-passengers:140, max-speed:110, num-of-wheels:8
+Jeep: name:Boo, max-passengers:5, max-speed:6, num-of-wheels:7
 
 Sea vessels:
 
-Hovercraft: name:Pomoronik, max-passengers:140, max-speed:110, num-of-wheels:8
-Boat: name:Caravel, max-passengers:10, max-speed:15
+Boat: name:Ba, max-passengers:9, max-speed:7
