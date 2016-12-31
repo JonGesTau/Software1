@@ -3,14 +3,14 @@ package ip.il.ac.tau.cs.sw1.ip;
 public class IPAddressFactory {
 	
 	public static IPAddress createAddress(String ip) {
-		return null;
+		return new IPAddressString(ip);
 	} 
 	
 	public static IPAddress createAddress(short[] ip) {
-		return null;
+		return new IPAddressShort(ip);
 	} 
 	
 	public static IPAddress createAddress(int ip) {
-		return null;
+		return new IPAddressInt(ip);
 	}
 }
