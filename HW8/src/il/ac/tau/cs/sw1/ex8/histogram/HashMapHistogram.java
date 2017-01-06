@@ -42,8 +42,7 @@ public class HashMapHistogram<T extends Comparable<T>> implements IHistogram<T>{
 
 	@Override
 	public Iterator<T> iterator() {
-		//your code goes here!
-		return null; //replace this with the actual returned value
+		return new HashMapHistogramIterator(histogram);
 	}
 	
 }
