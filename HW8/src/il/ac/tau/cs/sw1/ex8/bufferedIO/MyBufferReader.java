@@ -12,7 +12,6 @@ public class MyBufferReader implements IBufferedReader{
 	int bufferSize;
 	char[] buffer;
 	StringBuilder currentString;
-	boolean isDoneReading;
 
 
 	public MyBufferReader(FileReader fReader, int bufferSize){
@@ -20,7 +19,6 @@ public class MyBufferReader implements IBufferedReader{
 		this.bufferSize = bufferSize;
 		this.buffer = new char[bufferSize];
 		this.currentString = new StringBuilder();
-		this.isDoneReading = false;
 	}
 	
 

@@ -1,50 +1,43 @@
 package il.ac.tau.cs.sw1.ex8.histogram;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.*;
 
 /**************************************
  *  Add your code to this class !!!   *
  **************************************/
 public class HashMapHistogram<T extends Comparable<T>> implements IHistogram<T>{
-
-	
+	Map<T, Integer> histogram = new HashMap<>();
 
 	@Override
 	public void addItem(T item) {
-		//your code goes here!
-		
+		histogram.put(item, histogram.containsKey(item) ? histogram.get(item) + 1 : 1);
 	}
 
 	@Override
 	public void addItemKTimes(T item, int k) throws IllegalKValue {
-		//your code goes here!
-		
+		histogram.put(item, histogram.containsKey(item) ? histogram.get(item) + k : k);
 	}
 
 	@Override
 	public int getCountForItem(T item) {
-		//your code goes here!
-		return 0; //replace this with the actual returned value
+		return histogram.containsKey(item) ? histogram.get(item) : 0;
 	}
 
 	@Override
 	public void addAll(Collection<T> items) {
-		//your code goes here!
-		
+		for (T item : items) {
+			addItem(item);
+		}
 	}
 
 	@Override
 	public void clear() {
-		//your code goes here!
-		
+		histogram.clear();
 	}
 
 	@Override
 	public Set<T> getItemsSet() {
-		//your code goes here!
-		return null; //replace this with the actual returned value
+		return histogram.keySet();
 	}
 
 	@Override
