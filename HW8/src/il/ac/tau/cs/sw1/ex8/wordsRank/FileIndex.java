@@ -1,8 +1,13 @@
 package il.ac.tau.cs.sw1.ex8.wordsRank;
 
-import java.io.File;
-import java.util.List;
+import il.ac.tau.cs.sw1.ex8.histogram.HashMapHistogram;
+import il.ac.tau.cs.sw1.ex8.histogram.HashMapHistogramIterator;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
+
+import static il.ac.tau.cs.sw1.ex8.wordsRank.RankedWord.rankType.average;
 
 
 /**************************************
@@ -12,8 +17,9 @@ import java.util.List;
 public class FileIndex {
 	
 	public static final int UNRANKED_CONST = 20;
-	
-	
+	private LinkedList<String> allTokens = new LinkedList<>();
+	private HashMapHistogram<String> allFilesHistogram = new HashMapHistogram<>();
+	private HashMap<String, HashMapHistogram> filesIndex = new HashMap<>();
 
 	/*
 	 * @pre: the directory is no empty, and contains only readable text files
@@ -26,30 +32,54 @@ public class FileIndex {
 		for (File file : listFiles) {
 			// for every file in the folder
 			if (file.isFile()) {
-				/*******************/
-				//your code goes here!
-				/*******************/
+				filesIndex.put(file.getName(), new HashMapHistogram());
+				List<String> tokens = null;
+				try {
+					tokens = FileUtils.readAllTokens(file);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				for (String token : tokens) {
+					filesIndex.get(file.getName()).addItem(token);
+					allFilesHistogram.addItem(token);
+				}
 			}
 		}
-		/*******************/
-		//your code goes here!
-		/*******************/
 	}
 	
   	/*
 	 * @pre: the index is initialized
 	 */
 	public int getCountInFile(String filename, String word) throws FileIndexException{
-		//your code goes here!
-		return 0; //replace this with the actual returned value
+		word = word.toLowerCase();
+		if (!filesIndex.containsKey(filename)) {
+			throw new FileIndexException("This file does no exist");
+		}
+
+		return filesIndex.get(filename).getCountForItem(word);
 	}
 	
 	/*
 	 * @pre: the index is initialized
 	 */
 	public int getRankForWordInFile(String filename, String word) throws FileIndexException{
-		//your code goes here!
-		return 0; //replace this with the actual returned value
+		word = word.toLowerCase();
+		if (!filesIndex.containsKey(filename)) {
+			throw new FileIndexException("This file does no exist");
+		}
+
+		Iterator<String> iterator = filesIndex.get(filename).iterator();
+
+		int rank = 0;
+		for (Iterator<String> it = iterator; it.hasNext(); ) {
+			String wordInIterator = it.next();
+			rank++;
+			if (wordInIterator.equals(word)) {
+				return rank;
+			}
+		}
+
+		return rank + UNRANKED_CONST; //replace this with the actual returned value
 
 	}
 	
@@ -57,8 +87,19 @@ public class FileIndex {
 	 * @pre: the index is initialized
 	 */
 	public int getAverageRankForWord(String word){
-		//your code goes here!
-		return 0; //replace this with the actual returned value
+		HashMap<String, Integer> ranks = new HashMap<>();
+		for (String file : filesIndex.keySet()) {
+			try {
+				ranks.put(file, getRankForWordInFile(file, word));
+			} catch (FileIndexException e) {
+				e.printStackTrace();
+			}
+		}
+
+
+
+		RankedWord rankedWord = new RankedWord(word, ranks);
+		return rankedWord.getRankByType(average);
 	}
 	
 	

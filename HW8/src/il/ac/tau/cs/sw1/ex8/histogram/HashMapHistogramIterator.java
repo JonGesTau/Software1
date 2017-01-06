@@ -1,6 +1,5 @@
 package il.ac.tau.cs.sw1.ex8.histogram;
 
-import java.lang.reflect.Array;
 import java.util.*;
 
 
@@ -38,8 +37,7 @@ public class HashMapHistogramIterator<T extends Comparable<T>> implements Iterat
 		throw new UnsupportedOperationException();
 	}
 
-
-	private class HistComparator implements Comparator<T> {
+	public class HistComparator implements Comparator<T> {
 		@Override
 		public int compare(T item1, T item2) {
 			return histogram.get(item1) == histogram.get(item2) ? item1.compareTo(item2) : histogram.get(item2) - histogram.get(item1);

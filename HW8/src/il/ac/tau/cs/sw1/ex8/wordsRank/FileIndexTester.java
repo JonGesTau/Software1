@@ -8,7 +8,7 @@ import il.ac.tau.cs.sw1.ex8.wordsRank.RankedWord.rankType;
 
 public class FileIndexTester {
 	
-	public static final String INPUT_FOLDER = "resources/hw8/";
+	public static final String INPUT_FOLDER = "src/resources/hw8/";
 
 	public static void main(String[] args){
 		testRankedWordComparator();
