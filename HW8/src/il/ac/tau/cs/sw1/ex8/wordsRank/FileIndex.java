@@ -7,8 +7,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
-import static il.ac.tau.cs.sw1.ex8.wordsRank.RankedWord.rankType.average;
-
 
 /**************************************
  *  Add your code to this class !!!   *
@@ -17,8 +15,7 @@ import static il.ac.tau.cs.sw1.ex8.wordsRank.RankedWord.rankType.average;
 public class FileIndex {
 	
 	public static final int UNRANKED_CONST = 20;
-	private LinkedList<String> allTokens = new LinkedList<>();
-	private HashMapHistogram<String> allFilesHistogram = new HashMapHistogram<>();
+	private List<String> allTokens = new ArrayList<>();
 	private HashMap<String, HashMapHistogram> filesIndex = new HashMap<>();
 
 	/*
@@ -41,7 +38,7 @@ public class FileIndex {
 				}
 				for (String token : tokens) {
 					filesIndex.get(file.getName()).addItem(token);
-					allFilesHistogram.addItem(token);
+					allTokens.add(token);
 				}
 			}
 		}
@@ -96,27 +93,76 @@ public class FileIndex {
 			}
 		}
 
-
-
 		RankedWord rankedWord = new RankedWord(word, ranks);
-		return rankedWord.getRankByType(average);
+		return rankedWord.getRankByType(RankedWord.rankType.average);
 	}
 	
 	
 	
 	public List<String> getWordsBelowAverageRank(int k){
-		//your code goes here!
-		return null; //replace this with the actual returned value
+		List<RankedWord> wordsList = new ArrayList<>();
+		List<String> result = new ArrayList<>();
+		for (String token : allTokens) {
+			wordsList.add(getRankedWord(token));
+		}
+
+		Collections.sort(wordsList, new RankedWordComparator(RankedWord.rankType.average));
+		for (RankedWord word : wordsList) {
+			if (word.getRankByType(RankedWord.rankType.average) <= k) {
+				if (!result.contains(word.getWord())) {
+					result.add(word.getWord());
+				}
+			}
+		}
+		return result;
 	}
 	
 	public List<String> getWordsBeloweMinRank(int k){
-		//your code goes here!
-		return null; //replace this with the actual returned value
+		List<RankedWord> wordsList = new ArrayList<>();
+		List<String> result = new ArrayList<>();
+		for (String token : allTokens) {
+			wordsList.add(getRankedWord(token));
+		}
+
+		Collections.sort(wordsList, new RankedWordComparator(RankedWord.rankType.min));
+		for (RankedWord word : wordsList) {
+			if (word.getRankByType(RankedWord.rankType.min) <= k) {
+				if (!result.contains(word.getWord())) {
+					result.add(word.getWord());
+				}
+			}
+		}
+		return result;
 	}
 	
 	public List<String> getWordsBelowMaxRank(int k){
-		//your code goes here!
-		return null; //replace this with the actual returned value
+		List<RankedWord> wordsList = new ArrayList<>();
+		List<String> result = new ArrayList<>();
+		for (String token : allTokens) {
+			wordsList.add(getRankedWord(token));
+		}
+
+		Collections.sort(wordsList, new RankedWordComparator(RankedWord.rankType.max));
+		for (RankedWord word : wordsList) {
+			if (word.getRankByType(RankedWord.rankType.max) <= k) {
+				if (!result.contains(word.getWord())) {
+					result.add(word.getWord());
+				}
+			}
+		}
+		return result;
 	}
 
+	public RankedWord getRankedWord(String word) {
+		HashMap<String, Integer> ranks = new HashMap<>();
+		for (String file : filesIndex.keySet()) {
+			try {
+				ranks.put(file, getRankForWordInFile(file, word));
+			} catch (FileIndexException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return new RankedWord(word, ranks);
+	}
 }
