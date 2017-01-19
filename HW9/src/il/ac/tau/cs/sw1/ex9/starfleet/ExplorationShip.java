@@ -17,7 +17,7 @@ public class ExplorationShip extends AbstractSpaceship {
 
 	@Override
 	public int getAnnualMaintenanceCost() {
-		return MAINTENANCE_COST_PER_YEAR + LABS_COST_PER_YEAR;
+		return MAINTENANCE_COST_PER_YEAR + LABS_COST_PER_YEAR * numberOfResearchLabs;
 	}
 
 	public int getNumberOfResearchLabs() {

@@ -1,6 +1,6 @@
 package il.ac.tau.cs.sw1.ex9.starfleet;
 
-public class Weapon {
+public class 	Weapon {
 	private String name;
 	private int firePower;
 	private int annualMaintenanceCost;

@@ -14,7 +14,7 @@ public class Fighter extends AbstractSpaceship {
 	}
 
 	public int getAnnualMaintenanceCost() {
-		return MAINTENANCE_COST_PER_YEAR + ENGINE_COST * (int) maximalSpeed + getWeaponsCost();
+		return MAINTENANCE_COST_PER_YEAR + Math.round(ENGINE_COST * maximalSpeed) + getWeaponsCost();
 	}
 
 	public static int getMaintenanceFixedCost() {

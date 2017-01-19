@@ -9,11 +9,12 @@ public class StarfleetManager {
 	 * fire power, and then in descending order by commission year, and then in ascending order of the names
 	 */
 	public static List<String> getShipDescriptionsSortedByFirePowerAndCommissionYear(Collection<Spaceship> fleet) {
+		List<Spaceship> fleetList = new ArrayList<>(fleet);
 		List<String> result = new ArrayList<>();
 
-//		Collections.sort(fleet);
+		Collections.sort(fleetList, new FirePowerAndCommissionYearComparator());
 
-		for (Spaceship spaceship : fleet) {
+		for (Spaceship spaceship : fleetList) {
 			result.add(spaceship.toString());
 		}
 
@@ -72,5 +73,4 @@ public class StarfleetManager {
 	public static List<Map.Entry<OfficerRank, Integer>> getOfficerRanksSortedByPopularity(Collection<Spaceship> fleet) {
 		return null;
 	}
-
 }

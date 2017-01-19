@@ -88,8 +88,8 @@ public class StarfleetManagerTester {
 		weapons.add(new Weapon("Evaporator",30,300));
 		fleet.add(new StealthCruiser("USS Galaxy",2370,9f, generateCrew (1,3), weapons));
 
-//		fleet.add(new StealthCruiser("USS Odyssey",2419,9f, generateCrew (1,3)));
-//		fleet.add(new StealthCruiser("USS Amsterdamer",2410,9.2f, generateCrew (1,2)));
+		fleet.add(new StealthCruiser("USS Odyssey",2419,9f, generateCrew (1,3)));
+		fleet.add(new StealthCruiser("USS Amsterdamer",2410,9.2f, generateCrew (1,2)));
 
 		weapons = new ArrayList<Weapon>();
 		weapons.add(new Weapon("Laser Cannons",10,110));

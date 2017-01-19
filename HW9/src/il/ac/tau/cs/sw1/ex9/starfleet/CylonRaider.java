@@ -7,6 +7,7 @@ import java.util.Set;
 
 public class CylonRaider extends AbstractSpaceship {
 	private static final int MAINTENANCE_COST_PER_YEAR = 3000;
+	private static final int MEMBER_COST = 500;
 	private static final int ENGINE_COST = 1000;
 
 	public CylonRaider(String name, int commissionYear, float maximalSpeed, Set<Cylon> crewMembers, List<Weapon> weapons) {
@@ -14,12 +15,13 @@ public class CylonRaider extends AbstractSpaceship {
 	}
 
 	public int getAnnualMaintenanceCost() {
-		return MAINTENANCE_COST_PER_YEAR + ENGINE_COST;
+		return MAINTENANCE_COST_PER_YEAR + Math.round(ENGINE_COST * maximalSpeed) + MEMBER_COST * crewMembers.size() +  + getWeaponsCost();
 	}
 
 	@Override
 	public String toString() {
 		Map<String, String> params = new HashMap<>();
+		params.put("WeaponArray", getWeaponArrayString());
 
 		return super.toString(params);
 	}

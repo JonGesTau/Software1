@@ -18,7 +18,7 @@ public class Bomber extends AbstractSpaceship {
 
 	@Override
 	public int getAnnualMaintenanceCost() {
-		return (int) (MAINTENANCE_COST_PER_YEAR + Math.round(TECH_DISCOUNT * numberOfTechnicians) + getWeaponsCost());
+		return (int) Math.round(MAINTENANCE_COST_PER_YEAR + TECH_DISCOUNT * numberOfTechnicians + getWeaponsCost());
 	}
 
 	public int getNumberOfTechnicians() {
@@ -28,6 +28,7 @@ public class Bomber extends AbstractSpaceship {
 	@Override
 	public String toString() {
 		Map<String, String> params = new HashMap<>();
+		params.put("WeaponArray", getWeaponArrayString());
 		params.put("NumberOfResearchLabs", String.valueOf(getNumberOfTechnicians()));
 
 		return super.toString(params);
