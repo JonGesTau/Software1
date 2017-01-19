@@ -7,12 +7,16 @@ import java.util.Set;
 public class ExplorationShip extends AbstractSpaceship {
 	private int numberOfResearchLabs;
 
+	private static int instances = 0;
+
+
 	private static final int MAINTENANCE_COST_PER_YEAR = 4000;
 	private static final int LABS_COST_PER_YEAR = 2500;
 
 	public ExplorationShip(String name, int commissionYear, float maximalSpeed, Set<CrewMember> crewMembers, int numberOfResearchLabs){
 		super(name, commissionYear, maximalSpeed, crewMembers);
 		this.numberOfResearchLabs = numberOfResearchLabs;
+		instances++;
 	}
 
 	@Override
@@ -30,5 +34,9 @@ public class ExplorationShip extends AbstractSpaceship {
 		params.put("NumberOfResearchLabs", String.valueOf(getNumberOfResearchLabs()));
 
 		return super.toString(params);
+	}
+
+	public static int getInstances() {
+		return instances;
 	}
 }

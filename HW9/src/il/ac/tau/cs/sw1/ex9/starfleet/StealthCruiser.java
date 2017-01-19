@@ -3,13 +3,13 @@ package il.ac.tau.cs.sw1.ex9.starfleet;
 import java.util.*;
 
 public class StealthCruiser extends Fighter {
-	public static int numStealthCruisers = 0;
+	private static int instances = 0;
 
 	private static final int CLOACK_COST = 50;
 
 	public StealthCruiser(String name, int commissionYear, float maximalSpeed, Set<CrewMember> crewMembers, List<Weapon> weapons){
 		super(name, commissionYear, maximalSpeed, crewMembers, weapons);
-		numStealthCruisers++;
+		instances++;
 	}
 	
 	public StealthCruiser(String name, int commissionYear, float maximalSpeed, Set<CrewMember> crewMembers) {
@@ -17,7 +17,7 @@ public class StealthCruiser extends Fighter {
 	}
 
 	public int getAnnualMaintenanceCost() {
-		return getMaintenanceFixedCost() + numStealthCruisers * CLOACK_COST;
+		return getMaintenanceFixedCost() + StealthCruiser.getInstances() * CLOACK_COST;
 	}
 
 	@Override
@@ -28,4 +28,7 @@ public class StealthCruiser extends Fighter {
 		return super.toString(params);
 	}
 
+	public static int getInstances() {
+		return instances;
+	}
 }

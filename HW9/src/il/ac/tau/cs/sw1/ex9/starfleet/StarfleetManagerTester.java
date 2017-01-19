@@ -27,13 +27,13 @@ public class StarfleetManagerTester {
 		}
 
 		System.out.println();
-//		System.out.println("Ship counts by type:");
-//		Map<String, Integer> instancesNumberPerClass = StarfleetManager.getInstanceNumberPerClass(fleet);
-//		List<String> sortedNames = new ArrayList<>(instancesNumberPerClass.keySet());
-//		Collections.sort(sortedNames);
-//		for (String spaceshipType : sortedNames) {
-//			System.out.println("\t" + instancesNumberPerClass.get(spaceshipType) + "\t" + spaceshipType);
-//		}
+		System.out.println("Ship counts by type:");
+		Map<String, Integer> instancesNumberPerClass = StarfleetManager.getInstanceNumberPerClass(fleet);
+		List<String> sortedNames = new ArrayList<>(instancesNumberPerClass.keySet());
+		Collections.sort(sortedNames);
+		for (String spaceshipType : sortedNames) {
+			System.out.println("\t" + instancesNumberPerClass.get(spaceshipType) + "\t" + spaceshipType);
+		}
 //
 //		System.out.println();
 //		System.out.println("Weapon types:");

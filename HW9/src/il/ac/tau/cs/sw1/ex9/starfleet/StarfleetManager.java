@@ -1,5 +1,7 @@
 package il.ac.tau.cs.sw1.ex9.starfleet;
 
+import sun.jvm.hotspot.memory.Space;
+
 import java.util.*;
 
 public class StarfleetManager {
@@ -25,7 +27,39 @@ public class StarfleetManager {
 	 * Returns a map containing ship type names as keys (the class name) and the number of instances created for each type as values
 	 */
 	public static Map<String, Integer> getInstanceNumberPerClass(Collection<Spaceship> fleet) {
-		return null;
+		Map<String, Integer> result = new TreeMap<>();
+		int count = 0;
+
+		for (Spaceship spaceship : fleet) {
+			String type = spaceship.getClass().getSimpleName();
+
+			switch (type) {
+				case "Bomber":
+					count = ((Bomber) spaceship).getInstances();
+					break;
+				case "CylonRaider":
+					count = ((CylonRaider) spaceship).getInstances();
+					break;
+				case "ExplorationShip":
+					count = ((ExplorationShip) spaceship).getInstances();
+					break;
+				case "Fighter":
+					count = ((Fighter) spaceship).getInstances();
+					break;
+				case "StealthCruiser":
+					count = ((StealthCruiser) spaceship).getInstances();
+					break;
+				case "TransportShip":
+					count = ((TransportShip) spaceship).getInstances();
+					break;
+			}
+
+			if (count != 0) {
+				result.put(type, count);
+			}
+		}
+
+		return result;
 	}
 
 

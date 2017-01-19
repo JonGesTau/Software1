@@ -6,11 +6,14 @@ import java.util.Map;
 import java.util.Set;
 
 public class Fighter extends AbstractSpaceship {
+	private static int instances = 0;
+
 	private static final int MAINTENANCE_COST_PER_YEAR = 2500;
 	private static final int ENGINE_COST = 1000;
 
 	public Fighter(String name, int commissionYear, float maximalSpeed, Set<CrewMember> crewMembers, List<Weapon> weapons){
 		super(name, commissionYear, maximalSpeed, crewMembers, weapons);
+		instances++;
 	}
 
 	public int getAnnualMaintenanceCost() {
@@ -26,5 +29,9 @@ public class Fighter extends AbstractSpaceship {
 		Map<String, String> params = new HashMap<>();
 
 		return super.toString(params);
+	}
+
+	public static int getInstances() {
+		return instances - StealthCruiser.getInstances();
 	}
 }

@@ -8,6 +8,8 @@ public class TransportShip extends AbstractSpaceship {
 	private int cargoCapacity;
 	private int passengerCapacity;
 
+	private static int instances = 0;
+
 	private static final int MAINTENANCE_COST_PER_YEAR = 3000;
 	private static final int CARGO_COST_PER_MT = 5;
 	private static final int COST_PER_PASSENGER = 3;
@@ -16,6 +18,7 @@ public class TransportShip extends AbstractSpaceship {
 		super(name, commissionYear, maximalSpeed, crewMembers);
 		this.cargoCapacity = cargoCapacity;
 		this.passengerCapacity = passengerCapacity;
+		instances++;
 	}
 
 	@Override
@@ -38,5 +41,9 @@ public class TransportShip extends AbstractSpaceship {
 		params.put("NumberOfResearchLabs", String.valueOf(getPassengerCapacity()));
 
 		return super.toString(params);
+	}
+
+	public static int getInstances() {
+		return instances;
 	}
 }
