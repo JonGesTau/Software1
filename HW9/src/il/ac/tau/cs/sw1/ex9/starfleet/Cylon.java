@@ -1,6 +1,6 @@
 package il.ac.tau.cs.sw1.ex9.starfleet;
 
-public class Cylon implements CrewMember{
+public class Cylon implements CrewMember	{
 	private String name;
 	private int age;
 	private int yearsInService;

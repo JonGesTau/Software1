@@ -9,9 +9,7 @@ public interface Spaceship {
 
     public int getFirePower();
 
-//    public Set<CrewMember> getCrewMembers() {
-//
-//    }
+    public Set<? Extends CrewMember> getCrewMembers();
 
     public int getAnnualMaintenanceCost();
 }

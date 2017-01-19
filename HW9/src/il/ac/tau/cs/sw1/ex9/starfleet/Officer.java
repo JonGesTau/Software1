@@ -4,7 +4,7 @@ public class Officer extends CrewWoman{
 	private OfficerRank rank;
 
 	public Officer(String name, int age, int yearsInService, OfficerRank rank){
-		super();
+		super(name, age, yearsInService);
 		this.rank = rank;
 	}
 
