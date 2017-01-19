@@ -1,6 +1,6 @@
 package il.ac.tau.cs.sw1.ex9.starfleet;
 
-public class Cylon implements CrewMember	{
+public class Cylon implements CrewMember {
 	private String name;
 	private int age;
 	private int yearsInService;
@@ -28,5 +28,14 @@ public class Cylon implements CrewMember	{
 	public int getModelNumber() {
 		return modelNumber;
 	}
-	
+
+	@Override
+	public boolean equals(Object obj) {
+		return super.equals(obj);
+	}
+
+	@Override
+	public int hashCode() {
+		return super.hashCode();
+	}
 }

@@ -1,5 +1,7 @@
 package il.ac.tau.cs.sw1.ex9.starfleet;
 
+import java.util.Set;
+
 public interface Spaceship {
     public String getName();
 
@@ -9,7 +11,7 @@ public interface Spaceship {
 
     public int getFirePower();
 
-    public Set<? Extends CrewMember> getCrewMembers();
+    public Set<? extends CrewMember> getCrewMembers();
 
     public int getAnnualMaintenanceCost();
 }

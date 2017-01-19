@@ -1,6 +1,8 @@
 package il.ac.tau.cs.sw1.ex9.starfleet;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class Fighter extends AbstractSpaceship {
@@ -17,5 +19,12 @@ public class Fighter extends AbstractSpaceship {
 
 	public static int getMaintenanceFixedCost() {
 		return MAINTENANCE_COST_PER_YEAR;
+	}
+
+	@Override
+	public String toString() {
+		Map<String, String> params = new HashMap<>();
+
+		return super.toString(params);
 	}
 }

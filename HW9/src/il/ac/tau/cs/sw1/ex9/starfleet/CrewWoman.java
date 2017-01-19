@@ -22,4 +22,14 @@ public class CrewWoman implements CrewMember{
 	public int getYearsInService() {
 		return yearsInService;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		return super.equals(obj);
+	}
+
+	@Override
+	public int hashCode() {
+		return super.hashCode();
+	}
 }

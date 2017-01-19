@@ -1,5 +1,7 @@
 package il.ac.tau.cs.sw1.ex9.starfleet;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 public class ExplorationShip extends AbstractSpaceship {
@@ -20,5 +22,13 @@ public class ExplorationShip extends AbstractSpaceship {
 
 	public int getNumberOfResearchLabs() {
 		return numberOfResearchLabs;
+	}
+
+	@Override
+	public String toString() {
+		Map<String, String> params = new HashMap<>();
+		params.put("NumberOfResearchLabs", String.valueOf(getNumberOfResearchLabs()));
+
+		return super.toString(params);
 	}
 }

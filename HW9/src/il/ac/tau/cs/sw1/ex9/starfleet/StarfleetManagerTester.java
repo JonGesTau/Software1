@@ -27,47 +27,47 @@ public class StarfleetManagerTester {
 		}
 
 		System.out.println();
-		System.out.println("Ship counts by type:");
-		Map<String, Integer> instancesNumberPerClass = StarfleetManager.getInstanceNumberPerClass(fleet);
-		List<String> sortedNames = new ArrayList<>(instancesNumberPerClass.keySet());
-		Collections.sort(sortedNames);
-		for (String spaceshipType : sortedNames) {
-			System.out.println("\t" + instancesNumberPerClass.get(spaceshipType) + "\t" + spaceshipType);
-		}
-
-		System.out.println();
-		System.out.println("Weapon types:");
-		SortedSet<String> weapons = new TreeSet<>(StarfleetManager.getFleetWeaponNames(fleet));
-		for (String  weaponName: weapons) {
-			System.out.println("\t" + weaponName);
-		}
-
-		System.out.println();
-		System.out.println("Highest ranking officer per ship:");
-		Map<Officer,Spaceship> officersToShipsMap = StarfleetManager.getHighestRankingOfficerPerShip(fleet); 
-		SortedSet<Officer> sortedOfficers = new TreeSet<>(new Comparator<Officer>() {
-
-			@Override
-			public int compare(Officer o1, Officer o2) {
-				return o1.getName().compareTo(o2.getName());
-			}
-		});
-		sortedOfficers.addAll(officersToShipsMap.keySet());
-		for (Officer officer : sortedOfficers) {
-			System.out.println("\t" + officer.getRank() + "\t" + officer.getName() + "\t" +  officersToShipsMap.get(officer) .getName());
-		}
-
-
-		System.out.println();
-		System.out.println("Officer ranks sorted by popularity:");
-		for (Map.Entry<OfficerRank, Integer>  rankCountPair: StarfleetManager.getOfficerRanksSortedByPopularity(fleet)) {
-			System.out.println("\t" + rankCountPair.getValue() + "\t" + rankCountPair.getKey());
-		}
-
-		System.out.printf("\nFleet Totals:\n");
-		System.out.printf("\tTotal fleet crew members:\t\t\t%d\n", StarfleetManager.getTotalNumberOfFleetCrewMembers(fleet));
-		System.out.printf("\tAverage age of fleet officers:\t\t\t%.2f\n", StarfleetManager.getAverageAgeOfFleetOfficers(fleet));
-		System.out.printf("\tTotal annual maintenance cost:\t\t\t%d\n", StarfleetManager.getTotalMaintenanceCost(fleet));
+//		System.out.println("Ship counts by type:");
+//		Map<String, Integer> instancesNumberPerClass = StarfleetManager.getInstanceNumberPerClass(fleet);
+//		List<String> sortedNames = new ArrayList<>(instancesNumberPerClass.keySet());
+//		Collections.sort(sortedNames);
+//		for (String spaceshipType : sortedNames) {
+//			System.out.println("\t" + instancesNumberPerClass.get(spaceshipType) + "\t" + spaceshipType);
+//		}
+//
+//		System.out.println();
+//		System.out.println("Weapon types:");
+//		SortedSet<String> weapons = new TreeSet<>(StarfleetManager.getFleetWeaponNames(fleet));
+//		for (String  weaponName: weapons) {
+//			System.out.println("\t" + weaponName);
+//		}
+//
+//		System.out.println();
+//		System.out.println("Highest ranking officer per ship:");
+//		Map<Officer,Spaceship> officersToShipsMap = StarfleetManager.getHighestRankingOfficerPerShip(fleet);
+//		SortedSet<Officer> sortedOfficers = new TreeSet<>(new Comparator<Officer>() {
+//
+//			@Override
+//			public int compare(Officer o1, Officer o2) {
+//				return o1.getName().compareTo(o2.getName());
+//			}
+//		});
+//		sortedOfficers.addAll(officersToShipsMap.keySet());
+//		for (Officer officer : sortedOfficers) {
+//			System.out.println("\t" + officer.getRank() + "\t" + officer.getName() + "\t" +  officersToShipsMap.get(officer) .getName());
+//		}
+//
+//
+//		System.out.println();
+//		System.out.println("Officer ranks sorted by popularity:");
+//		for (Map.Entry<OfficerRank, Integer>  rankCountPair: StarfleetManager.getOfficerRanksSortedByPopularity(fleet)) {
+//			System.out.println("\t" + rankCountPair.getValue() + "\t" + rankCountPair.getKey());
+//		}
+//
+//		System.out.printf("\nFleet Totals:\n");
+//		System.out.printf("\tTotal fleet crew members:\t\t\t%d\n", StarfleetManager.getTotalNumberOfFleetCrewMembers(fleet));
+//		System.out.printf("\tAverage age of fleet officers:\t\t\t%.2f\n", StarfleetManager.getAverageAgeOfFleetOfficers(fleet));
+//		System.out.printf("\tTotal annual maintenance cost:\t\t\t%d\n", StarfleetManager.getTotalMaintenanceCost(fleet));
 	}
 
 	// Generates a list of spaceship objects with synthesized data
@@ -88,8 +88,8 @@ public class StarfleetManagerTester {
 		weapons.add(new Weapon("Evaporator",30,300));
 		fleet.add(new StealthCruiser("USS Galaxy",2370,9f, generateCrew (1,3), weapons));
 
-		fleet.add(new StealthCruiser("USS Odyssey",2419,9f, generateCrew (1,3)));
-		fleet.add(new StealthCruiser("USS Amsterdamer",2410,9.2f, generateCrew (1,2)));
+//		fleet.add(new StealthCruiser("USS Odyssey",2419,9f, generateCrew (1,3)));
+//		fleet.add(new StealthCruiser("USS Amsterdamer",2410,9.2f, generateCrew (1,2)));
 
 		weapons = new ArrayList<Weapon>();
 		weapons.add(new Weapon("Laser Cannons",10,110));

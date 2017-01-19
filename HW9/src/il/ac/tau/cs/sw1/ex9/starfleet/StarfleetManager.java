@@ -1,9 +1,6 @@
 package il.ac.tau.cs.sw1.ex9.starfleet;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class StarfleetManager {
 
@@ -12,7 +9,15 @@ public class StarfleetManager {
 	 * fire power, and then in descending order by commission year, and then in ascending order of the names
 	 */
 	public static List<String> getShipDescriptionsSortedByFirePowerAndCommissionYear(Collection<Spaceship> fleet) {
-		return null;
+		List<String> result = new ArrayList<>();
+
+//		Collections.sort(fleet);
+
+		for (Spaceship spaceship : fleet) {
+			result.add(spaceship.toString());
+		}
+
+		return result;
 	}
 
 	/**
