@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry excluding="part_a/bus_tickets/|part_a/|part_b/" kind="src" path="src"/>
+	<classpathentry excluding="bus_tickets/" kind="src" path="src/part_a"/>
+	<classpathentry kind="src" path="src/part_a/bus_tickets"/>
+	<classpathentry kind="src" path="src/part_b"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/org.eclipse.swt"/>
+	<classpathentry kind="output" path="out/production/HW10"/>
+</classpath>
