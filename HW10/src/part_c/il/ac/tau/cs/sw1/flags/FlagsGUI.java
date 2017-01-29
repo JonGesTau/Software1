@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -39,7 +40,15 @@ public class FlagsGUI {
 	private Font boldFont;
 	
 	String filePath;
+	String directory;
 	HashMap<String, String> flagsMap = new HashMap<>();
+	List<String> flagsList = new ArrayList<String>();
+	int score;
+	int errors;
+	int rightAnswers;
+	String currentCountry;
+	boolean passButtonClicked = false;
+	boolean getALetterButtonClicked = false;
 	
 	// Currently visible UI elements.
 	Label instructionLabel;
@@ -102,6 +111,7 @@ public class FlagsGUI {
 			public void widgetSelected(SelectionEvent e) {
 				if (e.getSource() instanceof Button) {
 					filePath = GUIUtils.getFilePathFromFileDialog(shell);
+					filePathField.setText(filePath);
 				}
 			}
 
@@ -139,12 +149,15 @@ public class FlagsGUI {
 						}
 						fileReader.close();
 						
-						List<String> flagsList = new ArrayList<String>(flagsMap.keySet());
+						flagsList = new ArrayList<String>(flagsMap.keySet());
 						Collections.shuffle(flagsList);
-						String directory = new File(filePath).getParent();
-						String country = flagsList.get(0);
-						String flagPath = directory + "/" + flagsMap.get(country);
-						updateQuestionPanel(flagPath, country);
+						directory = new File(filePath).getParent();
+						nextFlag();
+						
+						score = 0;
+						errors = 0;
+						
+						setScoreText();
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					}
@@ -190,6 +203,21 @@ public class FlagsGUI {
 		startupMessageLabel.setText("No flag to display, yet.");
 		startupMessageLabel.setLayoutData(GUIUtils.createFillGridData(2));
 	}
+	
+	private void setScoreText() {
+		scoreLabel.setText(Integer.toString(score));
+	}
+	
+	private void nextFlag() {
+		if (errors == 3 || flagsList.isEmpty()) {
+			GUIUtils.showInfoDialog(shell, "Score", "Your final score is " + score + " after " + (rightAnswers + errors) + " questions.");
+			return;
+		} else {
+			String country = currentCountry = flagsList.remove(0);
+			String flagPath = directory + "/" + flagsMap.get(country);
+			updateQuestionPanel(flagPath, country);
+		}
+	}
 
 	/**
 	 * Serves to display the flag image and input box for answer
@@ -225,6 +253,28 @@ public class FlagsGUI {
 		answerLayoutData.verticalAlignment = SWT.FILL;
 		checkAnswerButton.setLayoutData(answerLayoutData);
 		
+		checkAnswerButton.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				if (e.getSource() instanceof Button) {
+					if (answerGuessText.getText().toLowerCase().equals(currentCountry.toLowerCase())) {
+						score += 3;
+						rightAnswers++;
+					} else {
+						score -= 2;
+						errors++;
+					}
+					setScoreText();
+					
+					if (passButtonClicked && score < 0) {
+						passButton.setEnabled(false);
+						nextFlag();
+					} else {
+						nextFlag();
+					}
+				}
+			}
+		});
+		
 		// create the "Pass" button to skip a question
 		passButton = new Button(questionPanel, SWT.PUSH);
 		passButton.setText("Pass");
@@ -233,6 +283,20 @@ public class FlagsGUI {
 		data.horizontalSpan = 1;
 		passButton.setLayoutData(data);
 		
+		passButton.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				if (e.getSource() instanceof Button) {
+					if (!passButtonClicked) {
+						passButtonClicked = true;
+					} else {
+						score --;
+						setScoreText();
+					}
+					nextFlag();
+				}
+			}
+		});
+		
 		// create the "Get-a-Letter" button to show a letter
 		getALetterButton = new Button(questionPanel, SWT.PUSH);
 		getALetterButton.setText("Get-a-Letter");
@@ -240,6 +304,23 @@ public class FlagsGUI {
 				false);
 		data.horizontalSpan = 1;
 		getALetterButton.setLayoutData(data);
+		
+		getALetterButton.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				if (e.getSource() instanceof Button) {
+					if (!getALetterButtonClicked) {
+						getALetterButtonClicked = true;
+					} else {
+						score --;
+						setScoreText();
+					}
+					int randomNum = ThreadLocalRandom.current().nextInt(0, currentCountry.length());
+					char letter = currentCountry.charAt(randomNum);
+					
+					GUIUtils.showInfoDialog(shell, "Get-a-Letter", "Letter number " + (randomNum + 1) + " is " + letter);
+				}
+			}
+		});
 
 		// two operations to make the new widgets display properly
 		questionPanel.pack();
